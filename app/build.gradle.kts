@@ -26,7 +26,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        manifestPlaceholders["KAKAO_APP_KEY"] = "08429641312247241091cfec28bafe20"
+//        manifestPlaceholders["KAKAO_APP_KEY"] = "08429641312247241091cfec28bafe20"
     }
 
     buildTypes {
