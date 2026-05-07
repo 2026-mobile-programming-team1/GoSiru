@@ -25,7 +25,10 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
+        ndk {
+            // 실제 기기(arm)와 에뮬레이터(x86) 모두 대응
+            abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+        }
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 //      local.properties에서 키 값 가져오기
         val properties = Properties().apply {
