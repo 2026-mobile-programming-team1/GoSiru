@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
 //    id("org.jetbrains.kotlin.android")
@@ -25,8 +27,18 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+//      local.properties에서 키 값 가져오기
+        val properties = Properties().apply {
+            val propertiesFile = project.rootProject.file("local.properties")
+            if (propertiesFile.exists()) {
+                load(propertiesFile.inputStream())
+            }
+        }
 
-//        manifestPlaceholders["KAKAO_APP_KEY"] = "08429641312247241091cfec28bafe20"
+        val kakaoKey = properties.getProperty("KAKAO_APP_KEY") ?: ""
+
+        // 2. 읽어온 키를 매니페스트의 ${KAKAO_APP_KEY} 자리에 주입
+        manifestPlaceholders["KAKAO_APP_KEY"] = kakaoKey
     }
 
     buildTypes {
