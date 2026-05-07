@@ -9,7 +9,9 @@ import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.KakaoMapSdk
 import com.kakao.vectormap.MapLifeCycleCallback
-
+import androidx.lifecycle.lifecycleScope
+import io.github.jan.supabase.postgrest.from
+import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -40,6 +42,8 @@ class MainActivity : AppCompatActivity() {
                 Log.d("KakaoMap", "지도 준비 완료")
             }
         })
+        // 🔥 슈파베이스 연동 테스트 코드 시작!
+        testSupabaseConnection()
     }
 
     // 필수 생명주기 관리
@@ -51,5 +55,20 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         binding.mapView.pause()
+    }
+    private fun testSupabaseConnection() {
+        // 슈파베이스는 네트워크 통신이라 '코루틴' 안에서 실행해야 해
+        lifecycleScope.launch {
+            try {
+                // 1. 슈파베이스 DB의 특정 테이블에서 데이터 하나만 가져와보기
+                // 아직 테이블 안 만들었으면 이 부분에서 에러 날 수 있으니 참고!
+                val response = Supabase.client.from("stores").select().data
+
+                Log.d("SupabaseTest", "✅ 연결 성공! 데이터 결과: $response")
+            } catch (e: Exception) {
+                Log.e("SupabaseTest", "❌ 연결 실패 에러: ${e.message}")
+                // 에러가 '401'이면 키 값이 틀린 거, '404'면 테이블 이름이 틀린 거야.
+            }
+        }
     }
 }
