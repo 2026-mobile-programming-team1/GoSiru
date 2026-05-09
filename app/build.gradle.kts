@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.example.gosiru"
-    compileSdk = 35
+    compileSdk = 36
 
     // --- 서명 설정 (팀원 공통 키 사용) ---
     signingConfigs {
@@ -92,6 +92,7 @@ dependencies {
 
     // HTTP 통신을 위한 Ktor 엔진
     implementation("io.ktor:ktor-client-android:2.3.10")
+    implementation(libs.androidx.activity)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
