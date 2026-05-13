@@ -10,6 +10,9 @@ android {
     namespace = "com.example.gosiru"
     compileSdk = 35
 
+    buildFeatures {
+        buildConfig = true
+    }
     // --- 서명 설정 (팀원 공통 키 사용) ---
     signingConfigs {
         getByName("debug") {

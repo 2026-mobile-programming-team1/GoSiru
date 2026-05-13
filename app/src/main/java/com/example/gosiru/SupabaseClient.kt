@@ -1,5 +1,7 @@
 package com.example.gosiru
 
+
+import com.example.gosiru.BuildConfig
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 
