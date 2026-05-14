@@ -13,24 +13,8 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent">
 
-    <!--앱이름-->
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="시루떡"
-        android:textColor="@color/text1"
-        android:fontFamily="@font/pretendard"
-        android:textStyle="bold" />
-
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <!--알림 아이콘-->
     <FrameLayout
+        android:id="@+id/btnReturn"
         android:layout_width="48dp"
         android:layout_height="48dp">
 
@@ -39,8 +23,24 @@
             android:layout_width="15dp"
             android:layout_height="19dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_notification" />
+            android:src="@drawable/ic_return" />
 
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="프로필 수정"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/pretendard"
+        android:textStyle="bold" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
 
 </LinearLayout>

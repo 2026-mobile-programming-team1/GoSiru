@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background"
+    android:padding="16dp"
+    android:paddingBottom="120dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <TextView
+        android:id="@+id/tvNewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="프로필 완성하기"
+        android:fontFamily="@font/pretendard"
+        android:textStyle="bold"
+        android:textSize="24dp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvNewContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="더 나은 혜택을 위해 프로필 정보를 입력해주세요."
+        android:fontFamily="@font/pretendard"
+        android:textSize="16dp"
+        android:textColor="@color/text3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvNewTitle" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvEditTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="프로필 완성하기"
+        android:fontFamily="@font/pretendard"
+        android:textStyle="bold"
+        android:textSize="24dp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvEditContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="더 나은 혜택을 위해 프로필 정보를 입력해주세요."
+        android:fontFamily="@font/pretendard"
+        android:textSize="16dp"
+        android:textColor="@color/text3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEditTitle" />
+
+
+    <!-- 이름 -->
+    <LinearLayout
+        android:id="@+id/layoutName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvContent">
+
+        <TextView
+            android:id="@+id/tvNametitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="이름"
+            android:fontFamily="@font/pretendard"
+            android:textColor="@color/text3"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="8dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_profile_edit"
+            android:padding="16dp"
+            android:hint="성함을 입력하세요"
+            android:textColor="@color/black"
+            android:fontFamily="@font/pretendard"/>
+
+    </LinearLayout>
+
+    <!-- 출생년도 -->
+    <LinearLayout
+        android:id="@+id/layoutBirthYear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutName">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="8dp"
+            android:text="나이"
+            android:fontFamily="@font/pretendard"
+            android:textColor="@color/text3"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="#C2C6D6"
+            app:endIconTint="#C2C6D6"
+            app:hintEnabled="false">
+
+            <AutoCompleteTextView
+                android:id="@+id/dropdownBirthYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:fontFamily="@font/pretendard"
+                android:hint="태어난 년도를 선택하세요"
+                android:inputType="none"
+                android:padding="16dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/text3"
+                android:textStyle="bold" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+    <!-- 성별 -->
+    <LinearLayout
+        android:id="@+id/layoutGender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutBirthYear">
+
+        <TextView
+            android:id="@+id/tvGenderTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="8dp"
+            android:text="성별"
+            android:fontFamily="@font/pretendard"
+            android:textColor="@color/text3"/>
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="true"
+            >
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/genderMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_selector"
+                android:text="남성"
+                android:fontFamily="@font/pretendard"
+                android:textColor="@color/chip_text"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/genderFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_selector"
+                android:text="여성"
+                android:fontFamily="@font/pretendard"
+                android:textColor="@color/chip_text"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+
+        </com.google.android.material.chip.ChipGroup>
+
+
+    </LinearLayout>
+
+    <!-- 혼인 여부 -->
+    <LinearLayout
+        android:id="@+id/layoutMaritalStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutGender">
+
+        <TextView
+            android:id="@+id/tvMaritalStatusTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="8dp"
+            android:text="혼인 여부"
+            android:fontFamily="@font/pretendard"
+            android:textColor="@color/text3"/>
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="true"
+            >
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/MaritalStatusSingle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_selector"
+                android:text="비혼"
+                android:fontFamily="@font/pretendard"
+                android:textColor="@color/chip_text"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/MaritalStatusMarried"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_selector"
+                android:text="기혼"
+                android:fontFamily="@font/pretendard"
+                android:textColor="@color/chip_text"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+
+        </com.google.android.material.chip.ChipGroup>
+
+
+    </LinearLayout>
+
+    <!-- 국적 -->
+    <LinearLayout
+        android:id="@+id/layoutNationality"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutMaritalStatus">
+
+        <TextView
+            android:id="@+id/tvNationalityTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="8dp"
+            android:text="내국인 / 외국인"
+            android:fontFamily="@font/pretendard"
+            android:textColor="@color/text3"/>
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="true"
+            >
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/NationalityLocal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_selector"
+                android:text="내국인"
+                android:fontFamily="@font/pretendard"
+                android:textColor="@color/chip_text"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/NationalityForeign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_selector"
+                android:text="외국인"
+                android:fontFamily="@font/pretendard"
+                android:textColor="@color/chip_text"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+
+        </com.google.android.material.chip.ChipGroup>
+
+
+    </LinearLayout>
+
+    <!-- 직업 -->
+    <LinearLayout
+        android:id="@+id/layoutProfession"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutNationality">
+
+        <TextView
+            android:id="@+id/tvProfessionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="8dp"
+            android:text="직업"
+            android:fontFamily="@font/pretendard"
+            android:textColor="@color/text3"/>
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="true"
+            >
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_selector"
+                android:text="학생"
+                android:fontFamily="@font/pretendard"
+                android:textColor="@color/chip_text"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_selector"
+                android:text="직장인"
+                android:fontFamily="@font/pretendard"
+                android:textColor="@color/chip_text"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_selector"
+                android:text="전문직"
+                android:fontFamily="@font/pretendard"
+                android:textColor="@color/chip_text"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_selector"
+                android:text="프리랜서"
+                android:fontFamily="@font/pretendard"
+                android:textColor="@color/chip_text"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_selector"
+                android:text="취업준비생"
+                android:fontFamily="@font/pretendard"
+                android:textColor="@color/chip_text"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+        </com.google.android.material.chip.ChipGroup>
+
+
+    </LinearLayout>
+
+    <!-- 가구 형태 -->
+    <LinearLayout
+        android:id="@+id/layoutHouseholdType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutProfession">
+
+        <TextView
+            android:id="@+id/tvHouseholdTypeTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="8dp"
+            android:text="가구 형태"
+            android:fontFamily="@font/pretendard"
+            android:textColor="@color/text3"/>
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="true"
+            >
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_selector"
+                android:text="1인 가구"
+                android:fontFamily="@font/pretendard"
+                android:textColor="@color/chip_text"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_selector"
+                android:text="2인 가구"
+                android:fontFamily="@font/pretendard"
+                android:textColor="@color/chip_text"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_selector"
+                android:text="3인 이상 가구"
+                android:fontFamily="@font/pretendard"
+                android:textColor="@color/chip_text"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+        </com.google.android.material.chip.ChipGroup>
+
+
+    </LinearLayout>
+
+    <!-- 장애 여부 -->
+    <LinearLayout
+        android:id="@+id/layoutDisability"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutHouseholdType">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <TextView
+            android:id="@+id/tvDisabilityTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="8dp"
+            android:text="복지 혜택 대상 여부"
+            android:fontFamily="@font/pretendard"
+            android:textColor="@color/text3"/>
+
+            <TextView
+                android:id="@+id/tvtest2Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="8dp"
+                android:text="입력하신 정보는 맞춤형 복지 및 혜택 안내에만 활용돼요"
+                android:fontFamily="@font/pretendard"
+                android:textColor="#6B7280"/>
+        </LinearLayout>
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="true"
+            >
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_selector"
+                android:text="비장애인"
+                android:fontFamily="@font/pretendard"
+                android:textColor="@color/chip_text"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_selector"
+                android:text="장애인"
+                android:fontFamily="@font/pretendard"
+                android:textColor="@color/chip_text"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipBackgroundColor="@color/chip_selector"
+                android:text="미선택"
+                android:fontFamily="@font/pretendard"
+                android:textColor="@color/chip_text"
+                style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+        </com.google.android.material.chip.ChipGroup>
+
+
+    </LinearLayout>
+
+    <!-- 소득 수준 -->
+    <LinearLayout
+        android:id="@+id/layoutIncome"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="16dp"
+
+        android:orientation="vertical"
+
+        app:layout_constraintTop_toBottomOf="@id/layoutDisability"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 상단 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvIncomeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="소득 구간 (월 평균)"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/pretendard"
+                android:textColor="@color/text3"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/tvIncomeValue"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="300만원 ~ 400만원"
+
+                android:textSize="18sp"
+                android:textStyle="bold"
+
+                android:textColor="#0057D9"
+
+                android:fontFamily="@font/pretendard"/>
+        </LinearLayout>
+
+        <!-- SeekBar -->
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:max="10"
+            android:thumbTint="#0058BE"/>
+
+        <!-- 하단 범위 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="0"
+
+                android:textSize="16sp"
+                android:textStyle="bold"
+
+                android:textColor="@color/text3"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="1,000만원+"
+
+                android:textSize="16sp"
+                android:textStyle="bold"
+
+                android:textColor="@color/text3"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- 작성 완료 버튼 -->
+    <TextView
+        android:id="@+id/BtnOpenProfileEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="120dp"
+        android:gravity="center"
+        android:background="@drawable/bg_btn_open_profile_edit"
+        android:fontFamily="@font/pretendard"
+        android:paddingStart="50dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="50dp"
+        android:paddingBottom="12dp"
+        android:text="프로필 저장하기"
+        android:textColor="@color/text2"
+        app:layout_constraintTop_toBottomOf="@id/layoutIncome"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
