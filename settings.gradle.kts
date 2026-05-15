@@ -23,3 +23,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "GOSiru"
 include(":app")
+include(":app-admin")
