@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.app_admin"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.app_admin"
