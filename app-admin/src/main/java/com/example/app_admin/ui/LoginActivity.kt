@@ -45,7 +45,7 @@ class LoginActivity : ComponentActivity() {
 
         setContent {
             // 슈파베이스 브랜드 컬러 정의
-            val supabaseGreen = Color(0xFF3ECF8E)
+            val supabaseGreen = Color(0xFFFF6F00)
             val backgroundColor = Color(0xFFF9FAFB)
 
             MaterialTheme {
@@ -91,14 +91,15 @@ fun LoginScreen(brandColor: Color, onLoginClick: (String, String) -> Unit) {
     ) {
         // 타이틀 부분
         Text(
-            text = "Sign In",
+            text = "시루떡",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF111827),
             letterSpacing = (-0.5).sp
         )
+
         Text(
-            text = "GOSiru Admin System",
+            text = "관리자 모드",
             style = MaterialTheme.typography.bodyMedium,
             color = Color(0xFF6B7280),
             modifier = Modifier.padding(top = 8.dp)
@@ -173,7 +174,7 @@ fun LoginScreen(brandColor: Color, onLoginClick: (String, String) -> Unit) {
             colors = ButtonDefaults.buttonColors(containerColor = brandColor)
         ) {
             Text(
-                "Sign In",
+                "로그인",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
@@ -185,7 +186,7 @@ fun LoginScreen(brandColor: Color, onLoginClick: (String, String) -> Unit) {
         Text(
             "Forgot your password?",
             style = MaterialTheme.typography.bodySmall,
-            color = Color(0xFF059669),
+            color = Color(0xFFFF8C33),
             fontWeight = FontWeight.Medium
         )
     }

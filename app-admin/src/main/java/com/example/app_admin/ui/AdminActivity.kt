@@ -45,7 +45,7 @@ class AdminActivity : AppCompatActivity() {
         // 4. 즉시 테스트 데이터 전송 (프론트 버튼 누른 셈 치고)
         Log.d("ADMIN_TEST", "테스트 데이터 전송 시작...")
         viewModel.registerWelfare(
-            title = "시흥시 대학생 알바 모집",
+            title = "관리자 모드 테스트",
             content = "방학 기간 동안 시청에서 근무할 대학생들을 모집합니다.",
             minAge = 20,
             maxAge = 25,
@@ -53,7 +53,7 @@ class AdminActivity : AppCompatActivity() {
             income = null,
             gender = "전체",
             disabled = false,
-            foreigner = false
+            foreigner = true
         )
     }
 
