@@ -10,6 +10,8 @@ import com.example.app_admin.data.WelfareRepository
 import com.example.app_admin.viewmodel.AdminViewModel
 import com.example.app_admin.viewmodel.AdminViewModelFactory
 import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.gotrue.Auth
+import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.postgrest
 import kotlinx.coroutines.launch
@@ -29,10 +31,11 @@ class AdminActivity : AppCompatActivity() {
             supabaseKey = BuildConfig.SUPABASE_KEY
         ) {
             install(Postgrest.Companion)
+            install(Auth)
         }
 
         // 2. 레포지토리 및 뷰모델 연결
-        val repository = WelfareRepository(supabase.postgrest)
+        val repository = WelfareRepository(supabase.postgrest, supabase.auth)
         val factory = AdminViewModelFactory(repository)
         viewModel = viewModels<AdminViewModel> { factory }.value
 
