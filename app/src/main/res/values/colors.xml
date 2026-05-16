@@ -2,4 +2,27 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!--배경색-->
+    <color name="background">#F9F9FF</color>
+    <color name="profileBg">#F2F3FD</color>
+
+    <!--텍스트-->
+    <color name="text1">#0058BE</color>
+    <color name="text2">#ffffff</color>
+    <color name="text3">#424754</color>
+    <color name="text4">#727785</color>
+
+
+    <!--아이콘 컬러1-->
+    <color name="icon1">#424754</color>
+    <color name="icon2">#C2C6D6</color>
+    <!--혜택 카드 포인트 컬러-->
+    <color name="benefit">#006C49</color>
+    <color name="benefitBg">#10006c49</color>
+
+    <!--카드 배경 컬러-->
+    <color name="card">#0058BE</color>
+    <color name="cardBg">#200058BE</color>
+
 </resources>
