@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "287754642221",
+    "project_id": "gosiru-9df60",
+    "storage_bucket": "gosiru-9df60.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:287754642221:android:4968b93d48fad72edd29a4",
+        "android_client_info": {
+          "package_name": "com.example.gosiru"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQ4XKE8tOR8XLyGfPLP4a1PU7rEBu93w8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

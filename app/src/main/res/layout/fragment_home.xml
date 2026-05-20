@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/home"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background"
+    android:padding="30dp"
+    android:paddingBottom="120dp">
+
+
+    <!-- 추후 삭제 및 재구성 -->
+    <!-- 시루 잔액 표시 -->
+    <LinearLayout
+        android:id="@+id/cardBalance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:paddingBottom="25dp"
+        android:paddingTop="30dp"
+        android:background="@drawable/bg_balance_card"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tvBalanceLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="보유 잔액"
+            android:textColor="@color/text2"
+            android:alpha="0.8"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvBalanceAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="123,456"
+                android:textColor="@color/text2"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:layout_marginEnd="6dp"/>
+
+            <TextView
+                android:id="@+id/tvBalanceUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="원"
+                android:textColor="@color/text2"
+                android:textSize="15sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btnOpenApp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_botton1"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_marginTop="12dp">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="14dp"
+                android:src="@drawable/ic_wallet"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지역 화폐 결제 앱 이동"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:fontFamily="@font/pretendard"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    <!-- 누적 혜택 -->
+    <LinearLayout
+        android:id="@+id/sectionBenefit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:padding="20dp"
+        android:gravity="center"
+        android:background="@drawable/bg_benefit_background"
+        app:layout_constraintTop_toBottomOf="@id/cardBalance"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/benefitLeft"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/BenefitIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:background="@drawable/bg_benefit_icon"
+                android:src="@drawable/ic_benefit"
+                android:layout_marginEnd="12dp"/>
+
+            <LinearLayout
+                android:id="@+id/BenefitAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvBenefitTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="이번 달 누적 혜택"
+                    android:fontFamily="@font/pretendard"
+                    android:textSize="15sp"
+                    android:textColor="@color/text3"
+                    android:layout_marginBottom="3dp"/>
+
+                <TextView
+                    android:id="@+id/tvBenefitAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+123,456원"
+                    android:fontFamily="@font/pretendard"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/benefit"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btnBenefitDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:background="@drawable/bg_benefit_detail"
+            android:text="내역 보기"
+            android:textColor="@color/benefit"
+            android:fontFamily="@font/pretendard"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+
+
+    <!-- 맞춤형 지역 혜택 -->
+    <LinearLayout
+        android:id="@+id/CustomBenefitHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:paddingTop="8dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@id/sectionBenefit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tvBenefitheader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="맞춤형 지역 혜택"
+            android:fontFamily="@font/pretendard"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/BtnViewAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전체보기"
+            android:textSize="15dp"
+            android:fontFamily="@font/pretendard"
+            android:textStyle="bold"
+            android:textColor="@color/text1"/>
+    </LinearLayout>
+
+    <!-- 프로필 미작성자 -->
+    <LinearLayout
+        android:id="@+id/sectionProfileEmpty"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="40dp"
+        android:paddingBottom="40dp"
+        android:gravity="center"
+        android:background="@drawable/bg_noprofile_section"
+        app:layout_constraintTop_toBottomOf="@id/CustomBenefitHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/NoProfileIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_no_profile_icon"
+            android:src="@drawable/ic_noprofile" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"
+            android:text="혜택 정보 제공을 위해선\n프로필을 먼저 작성해 주세요"
+            android:fontFamily="@font/pretendard"
+            android:textColor="@color/text3"
+            />
+
+        <TextView
+            android:id="@+id/BtnOpenProfileEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="프로필 작성하기"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp"
+            android:background="@drawable/bg_btn_open_profile_edit"
+            android:fontFamily="@font/pretendard"
+            android:textColor="@color/text2"/>
+
+    </LinearLayout>
+
+    <!-- 프로필 작성자 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sectionProfileDone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/CustomBenefitHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvWelfareList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tvEmptyMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="40dp"
+            android:text="조건에 맞는 혜택이 없어요"
+            android:textColor="@color/text3"
+            android:fontFamily="@font/pretendard"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
