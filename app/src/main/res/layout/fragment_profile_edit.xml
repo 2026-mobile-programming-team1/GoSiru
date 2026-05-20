@@ -18,9 +18,13 @@
     android:paddingBottom="120dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
     <TextView
         android:id="@+id/tvNewTitle"
         android:layout_width="wrap_content"
@@ -29,9 +33,7 @@
         android:fontFamily="@font/pretendard"
         android:textStyle="bold"
         android:textSize="24dp"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/tvNewContent"
@@ -41,34 +43,8 @@
         android:text="더 나은 혜택을 위해 프로필 정보를 입력해주세요."
         android:fontFamily="@font/pretendard"
         android:textSize="16dp"
-        android:textColor="@color/text3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvNewTitle" />
+        android:textColor="@color/text3"/>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvEditTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="프로필 완성하기"
-        android:fontFamily="@font/pretendard"
-        android:textStyle="bold"
-        android:textSize="24dp"
-        android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvEditContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="더 나은 혜택을 위해 프로필 정보를 입력해주세요."
-        android:fontFamily="@font/pretendard"
-        android:textSize="16dp"
-        android:textColor="@color/text3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvEditTitle" />
 
 
     <!-- 이름 -->
@@ -79,7 +55,7 @@
         android:layout_marginTop="16dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvContent">
+        app:layout_constraintTop_toBottomOf="@id/titleLayout">
 
         <TextView
             android:id="@+id/tvNametitle"
