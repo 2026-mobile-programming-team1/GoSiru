@@ -1,9 +1,10 @@
-package com.example.gosiru
+package com.example.gosiru.ui
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.example.gosiru.R
 import com.example.gosiru.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment(R.layout.fragment_profile) {

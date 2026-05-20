@@ -1,16 +1,28 @@
-package com.example.gosiru
+package com.example.gosiru.ui
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.gosiru.ui.HomeFragment
+import com.example.gosiru.ui.ProfileEditFragment
+import com.example.gosiru.ui.ProfileFragment
+import com.example.gosiru.R
 import com.example.gosiru.databinding.ActivityMainBinding
-import androidx.activity.OnBackPressedCallback // 상단에 import 추가
+import com.google.firebase.messaging.FirebaseMessaging
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -29,6 +41,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // ==========================================
+        // [추가된 부분] 상대방 브랜치에서 가져온 FCM 토큰 및 권한 요청 로직
+        // ==========================================
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.e("FCM", "토큰 가져오기 실패")
+                    return@addOnCompleteListener
+                }
+                val token = task.result
+                Log.d("FCM_TOKEN", token)
+            }
+
+        // 알림 권한 요청 (Android 13 이상)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 0)
+            }
+        }
+        // ==========================================
 
         initViews()
 
@@ -50,6 +84,7 @@ class MainActivity : AppCompatActivity() {
         tabProfile.setOnClickListener {
             moveFragmentWithCheck(ProfileFragment()) { updateBottomNavUI(isHome = false) }
         }
+
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (isEditingProfile) {
@@ -79,7 +114,6 @@ class MainActivity : AppCompatActivity() {
         txtProfile = findViewById(R.id.txtProfile)
     }
 
-    // 탭 색상 변경 로직을 하나로 통합
     private fun updateBottomNavUI(isHome: Boolean) {
         tabHome.isSelected = isHome
         tabProfile.isSelected = !isHome
@@ -109,7 +143,6 @@ class MainActivity : AppCompatActivity() {
         setAppBar(R.layout.profile_app_bar)
     }
 
-    // 탭 이동 시 콜백을 받아서 UI 업데이트까지 한 번에 처리
     private fun moveFragmentWithCheck(fragment: Fragment, onMoved: () -> Unit) {
         if (isEditingProfile) {
             showSaveDialog {

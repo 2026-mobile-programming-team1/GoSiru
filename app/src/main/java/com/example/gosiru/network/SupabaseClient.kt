@@ -1,6 +1,8 @@
-package com.example.gosiru
+package com.example.gosiru.network
 
+import com.example.gosiru.BuildConfig
 import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.gotrue.Auth
 import io.github.jan.supabase.postgrest.Postgrest
 
 object Supabase {
@@ -9,5 +11,7 @@ object Supabase {
         supabaseKey = BuildConfig.SUPABASE_KEY
     ) {
         install(Postgrest)
+        install(Auth)
+
     }
 }

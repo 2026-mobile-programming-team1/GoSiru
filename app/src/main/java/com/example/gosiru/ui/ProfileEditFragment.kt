@@ -1,11 +1,11 @@
-package com.example.gosiru
+package com.example.gosiru.ui
 
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
-import com.example.gosiru.databinding.FragmentProfileBinding
+import com.example.gosiru.R
 import com.example.gosiru.databinding.FragmentProfileEditBinding
 
 class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {

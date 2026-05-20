@@ -1,9 +1,11 @@
-package com.example.gosiru
+package com.example.gosiru.ui
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.example.gosiru.ui.ProfileFragment
+import com.example.gosiru.R
 import com.example.gosiru.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
