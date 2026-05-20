@@ -13,7 +13,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
     private val mainActivity: MainActivity
-        get() = activity as MainActivity
+        get() = requireActivity() as MainActivity
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,8 +43,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun updateProfileSection() {
-        val isDone = mainActivity?.isProfileDone ?: false
-
+        val isDone = mainActivity.isProfileDone
         binding.apply {
             sectionProfileDone.visibility = if (isDone) View.VISIBLE else View.GONE
             sectionProfileEmpty.visibility = if (isDone) View.GONE else View.VISIBLE
