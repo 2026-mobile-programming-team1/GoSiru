@@ -83,8 +83,7 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
 
-    // --- 카카오맵 V2 ---
-    implementation("com.kakao.maps.open:android:2.11.0")
+
 
     // Supabase (Bom을 쓰면 버전 관리가 편해)
     implementation(platform("io.github.jan-tennert.supabase:bom:2.5.0"))

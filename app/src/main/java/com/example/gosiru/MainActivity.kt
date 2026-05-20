@@ -11,7 +11,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.gosiru.databinding.ActivityMainBinding
-import com.kakao.vectormap.KakaoMapSdk
 import io.ktor.websocket.Frame
 
 class MainActivity : AppCompatActivity() {
@@ -39,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         )
 
         val appKey = appInfo.metaData.getString("com.kakao.sdk.AppKey") ?: ""
-        KakaoMapSdk.init(this, appKey)
 
 
         // 하단 탭

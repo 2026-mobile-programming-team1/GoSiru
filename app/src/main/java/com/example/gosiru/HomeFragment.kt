@@ -21,8 +21,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         updateProfileSection()
 
-        // 테스트용: 프로필 상태 토글
-
 
 
         // 프로필 작성/편집 페이지로 이동
