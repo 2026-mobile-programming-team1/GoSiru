@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.gosiru.databinding.FragmentMapBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.MapLifeCycleCallback
@@ -16,6 +17,7 @@ class MapFragment : Fragment(R.layout.fragment_map) {
 
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,6 +40,30 @@ class MapFragment : Fragment(R.layout.fragment_map) {
         })
 
         testSupabaseConnection()
+
+        var isAvailable = false
+        var isBookmark = false
+
+        binding.btnHeart.setOnClickListener {
+
+            isAvailable = !isAvailable
+            isBookmark = !isBookmark
+
+            if (isAvailable) {
+                binding.txtTag.setBackgroundResource(R.drawable.bg_tag_green)
+                binding.txtTag.text = "지역화폐 사용 가능"
+            } else {
+                binding.txtTag.setBackgroundResource(R.drawable.bg_tag_red)
+                binding.txtTag.text = "지역화폐 사용 불가능"
+            }
+
+            if (isAvailable) {
+                binding.btnHeart.setImageResource(R.drawable.ic_fullheart)
+            } else {
+                binding.btnHeart.setImageResource(R.drawable.ic_heart_outline)
+            }
+        }
+
     }
 
     private fun testSupabaseConnection() {

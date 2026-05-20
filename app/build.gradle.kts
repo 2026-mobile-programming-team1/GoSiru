@@ -75,6 +75,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -93,9 +94,14 @@ dependencies {
     // HTTP 통신을 위한 Ktor 엔진
     implementation("io.ktor:ktor-client-android:2.3.10")
     implementation(libs.androidx.activity)
+    implementation(libs.play.services.maps)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    // ui용
+    implementation("de.hdodenhof:circleimageview:3.1.0")    //둥근 이미지 뷰
+    implementation("com.google.android.material:material:1.12.0")   //태어난 년도, 지역 선택
+    implementation("com.google.android.material:material:1.12.0")   //map coordinatorLayout
 }
