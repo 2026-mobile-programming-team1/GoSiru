@@ -15,19 +15,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GOSiru">
+
         <activity
             android:name=".ui.SignUpActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.GOSiru">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- FCM 서비스 등록 -->
+        </activity>
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GOSiru">
+        </activity>
+
         <service
             android:name=".network.FcmService"
             android:exported="false">

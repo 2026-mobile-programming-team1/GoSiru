@@ -4,8 +4,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.example.gosiru.R
 import com.example.gosiru.databinding.FragmentProfileBinding
+import com.example.gosiru.network.Supabase
+import com.example.gosiru.network.WelfareRepository
+import io.github.jan.supabase.gotrue.auth
+import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
@@ -53,8 +58,26 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     override fun onResume() {
         super.onResume()
+        val mainAct = activity as MainActivity
 
-        (activity as MainActivity).setAppBar(R.layout.app_bar)
+        // 현재 프로필 편집 모드(isEditingProfile == true)가 아닐 때만 서버에서 데이터를 조회하도록 방어
+        if (!mainAct.isEditingProfile) {
+            refreshProfileStatus()
+        }
+    }
+
+    private fun refreshProfileStatus() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val userId = Supabase.client.auth.currentUserOrNull()?.id ?: return@launch
+            val profile = WelfareRepository.getUserProfile(userId)
+
+            if (profile != null) {
+                (activity as MainActivity).isProfileDone = true
+                binding.profileStatus.visibility = View.VISIBLE
+                binding.NoProfileSection.visibility = View.GONE
+                // 이름이나 주소 등 텍스트 업데이트 로직 추가 가능
+            }
+        }
     }
 
     override fun onDestroyView() {
