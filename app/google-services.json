@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "219160643868",
+    "project_id": "siru-d1a07",
+    "storage_bucket": "siru-d1a07.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:219160643868:android:b2e707360a17d9d0ef92d9",
+        "android_client_info": {
+          "package_name": "com.example.siru"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClWD0PILTFe_TVfsIMtx8K3weKTji9aO0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
