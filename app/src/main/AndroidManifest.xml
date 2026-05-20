@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -14,27 +15,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GOSiru">
-        <activity
-            android:name=".AdminFragment"
-            android:exported="false" />
-        <activity
-            android:name=".ProfileFragement"
-            android:exported="false" />
-
-        <meta-data
-            android:name="com.kakao.sdk.AppKey"
-            android:value="${KAKAO_APP_KEY}" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.SignUpActivity"
             android:exported="true"
             android:theme="@style/Theme.GOSiru">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GOSiru">
+        </activity>
+
+        <service
+            android:name=".network.FcmService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
