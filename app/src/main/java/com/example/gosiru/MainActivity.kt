@@ -35,10 +35,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        // 프로필 탭
-        tabProfile.setOnClickListener {
-            replaceFragment(ProfileFragment())
-        }
+
     }
 
     private fun replaceFragment(fragment: Fragment) {
