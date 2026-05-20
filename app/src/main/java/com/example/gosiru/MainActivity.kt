@@ -34,10 +34,6 @@ class MainActivity : AppCompatActivity() {
             replaceFragment(HomeFragment())
         }
 
-        // 지도 탭
-        tabMap.setOnClickListener {
-            replaceFragment(MapFragment())
-        }
 
         // 프로필 탭
         tabProfile.setOnClickListener {
