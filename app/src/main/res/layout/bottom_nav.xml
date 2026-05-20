@@ -33,6 +33,7 @@
             android:layout_height="22dp"
             android:src="@drawable/ic_home"
             app:tint="#424754"/>
+        <!-- 이미지 추후 변경 예정 -->
 
         <TextView
             android:id="@+id/txtHome"
@@ -43,9 +44,9 @@
             android:textColor="#424754" />
     </LinearLayout>
 
-    <!-- 지도 -->
+    <!-- 혜택 -->
     <LinearLayout
-        android:id="@+id/tabMap"
+        android:id="@+id/tabBenefit"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -56,17 +57,17 @@
         android:background="@drawable/tab_selector_bg">
 
         <ImageView
-            android:id="@+id/imgMap"
+            android:id="@+id/imgBenefit"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:src="@drawable/ic_map"
             app:tint="#424754"/>
 
         <TextView
-            android:id="@+id/txtMap"
+            android:id="@+id/txtBenefit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Map"
+            android:text="Benefit"
             android:textSize="10sp"
             android:textColor="#424754" />
     </LinearLayout>

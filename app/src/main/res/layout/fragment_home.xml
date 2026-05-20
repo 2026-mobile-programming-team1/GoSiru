@@ -18,6 +18,8 @@
     android:padding="30dp"
     android:paddingBottom="120dp">
 
+
+    <!-- 추후 삭제 및 재구성 -->
     <!-- 시루 잔액 표시 -->
     <LinearLayout
         android:id="@+id/cardBalance"
@@ -92,7 +94,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
     <!-- 누적 혜택 -->
     <LinearLayout
         android:id="@+id/sectionBenefit"
@@ -167,6 +168,8 @@
             android:fontFamily="@font/pretendard"
             android:textStyle="bold"/>
     </LinearLayout>
+
+
 
     <!-- 맞춤형 지역 혜택 -->
     <LinearLayout

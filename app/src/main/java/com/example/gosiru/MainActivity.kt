@@ -44,17 +44,14 @@ class MainActivity : AppCompatActivity() {
 
         // 하단 탭
         val tabHome = findViewById<LinearLayout>(R.id.tabHome)
-        val tabMap = findViewById<LinearLayout>(R.id.tabMap)
         val tabProfile = findViewById<LinearLayout>(R.id.tabProfile)
 
         // 하단 이미지
         val imgHome = findViewById<ImageView>(R.id.imgHome)
-        val imgMap = findViewById<ImageView>(R.id.imgMap)
         val imgProfile = findViewById<ImageView>(R.id.imgProfile)
 
         // 하단 텍스트
         val txtHome = findViewById<TextView>(R.id.txtHome)
-        val txtMap = findViewById<TextView>(R.id.txtMap)
         val txtProfile = findViewById<TextView>(R.id.txtProfile)
 
 
@@ -74,33 +71,12 @@ class MainActivity : AppCompatActivity() {
             moveFragmentWithCheck(HomeFragment())
 
             tabHome.isSelected = true
-            tabMap.isSelected = false
             tabProfile.isSelected = false
 
             //img 와 txt변경
             imgHome.setColorFilter(Color.parseColor("#FEFCFF"))
-            imgMap.setColorFilter(Color.parseColor("#424754"))
             imgProfile.setColorFilter(Color.parseColor("#424754"))
             txtHome.setTextColor(Color.parseColor("#FEFCFF"))
-            txtMap.setTextColor(Color.parseColor("#424754"))
-            txtProfile.setTextColor(Color.parseColor("#424754"))
-
-        }
-
-        // 지도 탭
-        tabMap.setOnClickListener {
-            moveFragmentWithCheck(MapFragment())
-
-            tabHome.isSelected = false
-            tabMap.isSelected = true
-            tabProfile.isSelected = false
-
-            //img 와 txt변경
-            imgHome.setColorFilter(Color.parseColor("#424754"))
-            imgMap.setColorFilter(Color.parseColor("#FEFCFF"))
-            imgProfile.setColorFilter(Color.parseColor("#424754"))
-            txtHome.setTextColor(Color.parseColor("#424754"))
-            txtMap.setTextColor(Color.parseColor("#FEFCFF"))
             txtProfile.setTextColor(Color.parseColor("#424754"))
 
         }
@@ -110,15 +86,12 @@ class MainActivity : AppCompatActivity() {
             moveFragmentWithCheck(ProfileFragment())
 
             tabHome.isSelected = false
-            tabMap.isSelected = false
             tabProfile.isSelected = true
 
             //img 와 txt변경
             imgHome.setColorFilter(Color.parseColor("#424754"))
-            imgMap.setColorFilter(Color.parseColor("#424754"))
             imgProfile.setColorFilter(Color.parseColor("#FEFCFF"))
             txtHome.setTextColor(Color.parseColor("#424754"))
-            txtMap.setTextColor(Color.parseColor("#424754"))
             txtProfile.setTextColor(Color.parseColor("#FEFCFF"))
 
         }
