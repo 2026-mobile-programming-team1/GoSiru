@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background"
+        android:padding="16dp"
+        tools:context=".AdminFragment">
+
+        <LinearLayout
+            android:id="@+id/layoutBasicInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_admin_benefit_register"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/pretendard"
+                android:text="기본 정보"
+                android:textColor="@color/text1"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="제목"
+                android:textColor="@color/text3" />
+
+            <EditText
+                android:id="@+id/etTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_profile_edit"
+                android:hint="혜택 명칭을 입력하세요"
+                android:padding="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="상세 내용"
+                android:textColor="@color/text3" />
+
+            <EditText
+                android:id="@+id/etContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_profile_edit"
+                android:gravity="top"
+                android:hint="지원 대상 및 혜택 상세 내용을 입력하세요"
+                android:inputType="textMultiLine"
+                android:minHeight="150dp"
+                android:padding="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutSupportApplication"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_admin_benefit_register"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutBasicInfo">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="지원 및 신청"
+                android:textColor="@color/text1"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="지원 금액(원)"
+                android:textColor="@color/text3" />
+
+            <EditText
+                android:id="@+id/etAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_profile_edit"
+                android:hint="예: 123000"
+                android:inputType="number"
+                android:padding="16dp" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/switchBenefit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_profile_edit"
+                android:layout_marginTop="5dp"
+                android:padding="10dp"
+                android:text="시루(지역 화폐) 지원" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="신청 링크"
+                android:textColor="@color/text3" />
+
+            <EditText
+                android:id="@+id/etLink"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_profile_edit"
+                android:hint="http://"
+                android:padding="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutAgeIncome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_admin_benefit_register"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutSupportApplication">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="연령 및 소득 제한"
+                android:textColor="@color/text1"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etMinAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="최소 연령"
+                android:inputType="number"
+                android:padding="12dp" />
+
+            <EditText
+                android:id="@+id/etMaxAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="최대 연령"
+                android:inputType="number"
+                android:padding="12dp" />
+
+            <EditText
+                android:id="@+id/etIncomeLimit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="소득 제한 (연봉 등)"
+                android:inputType="number"
+                android:padding="12dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutTargetSetting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_admin_benefit_register"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutAgeIncome">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="대상 설정"
+                android:textColor="@color/text1"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="직업"
+                android:textColor="@color/text3" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/cgJob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/jobStudent"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="대학생" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/jobWorker"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="직장인" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/jobPro"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="전문직" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/jobFree"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="프리랜서" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/jobSeeker"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="취업준비생" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <RadioGroup
+                android:id="@+id/radioGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <RadioButton android:id="@+id/rbAll" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="전체" android:checked="true" />
+                <RadioButton android:id="@+id/rbMale" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="남성" />
+                <RadioButton android:id="@+id/rbFemale" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="여성" />
+            </RadioGroup>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchDisabled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="장애인 전용" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchForeigner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="외국인 전용" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:backgroundTint="@color/card"
+            android:padding="16dp"
+            android:text="등록하기"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutTargetSetting" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
