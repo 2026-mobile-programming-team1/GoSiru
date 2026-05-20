@@ -43,7 +43,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             Log.d("HomeFragment", "프로필 작성 화면으로 이동 (Profile 거쳐서 Edit)")
         }
-
+        // FCM 진짜 토큰 로그로 뽑아보기
+        com.google.firebase.messaging.FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                android.util.Log.w("FCM_TEST", "토큰 가져오기 실패", task.exception)
+                return@addOnCompleteListener
+            }
+            // 성공하면 토큰 가져오기
+            val token = task.result
+            android.util.Log.d("FCM_TEST", "🔥 내 진짜 FCM 토큰: $token")
+        }
         setupClickListeners()
     }
     override fun onResume() {
@@ -85,6 +94,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             try {
                 // 1번 CCTV: 유저 아이디 확인
                 val userId = Supabase.client.auth.currentUserOrNull()?.id
+                if (userId != null) {
+                    WelfareRepository.updateFcmToken(userId)
+                }
                 Log.d("HomeFragment_Test", "1. 로그인 유저 ID: $userId")
 
                 if (userId == null) {

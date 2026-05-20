@@ -77,7 +77,6 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
                     jobStatus = "학생", // 임시
                     incomeLevel = incomeLevel,
                     householdCount = 1, // DB에 컬럼 추가했는지 확인!
-                    fcmToken = "" // Null 에러 방지용
                 )
 
                 // DB 저장 요청

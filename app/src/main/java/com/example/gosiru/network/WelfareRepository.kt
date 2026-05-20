@@ -76,17 +76,24 @@ object WelfareRepository {
         }
     }
 
-    fun saveFcmToken(userUid: String) {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+    // FCM 토큰만 단독으로 DB에 업데이트하는 실무용 함수
+    fun updateFcmToken(userId: String) {
+        com.google.firebase.messaging.FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val token = task.result
-                MainScope().launch {
+                kotlinx.coroutines.MainScope().launch {
                     try {
+                        // 프로필의 다른 정보는 건드리지 않고 fcm_token 컬럼만 업데이트!
                         Supabase.client.postgrest.from("profiles").update(
-                            mapOf("fcm_token" to token)
-                        ) { filter { eq("id", userUid) } }
+                            {
+                                set("fcm_token", token)
+                            }
+                        ) {
+                            filter { eq("id", userId) }
+                        }
+                        android.util.Log.d("FCM_TOKEN", "✅ 최신 토큰 DB 업데이트 완료")
                     } catch (e: Exception) {
-                        Log.e("Repository", "FCM 토큰 저장 실패", e)
+                        android.util.Log.e("FCM_TOKEN", "❌ 토큰 업데이트 실패", e)
                     }
                 }
             }

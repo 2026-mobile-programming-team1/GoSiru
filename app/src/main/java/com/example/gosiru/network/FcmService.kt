@@ -6,18 +6,26 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.gosiru.R
 import com.example.gosiru.ui.MainActivity // MainActivity가 있는 경로 확인
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import io.github.jan.supabase.gotrue.auth
 
 class FcmService : FirebaseMessagingService() {
 
+    // 🔥 구글이 토큰을 새로 발급할 때마다 자동으로 호출되는 곳
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        // 위에서 만든 Repository의 함수를 호출
-        WelfareRepository.saveFcmToken(token)
+        Log.d("FCM_SERVICE", "새로운 토큰 발급됨: $token")
+
+        // 현재 로그인된 유저가 있다면, 새로 받은 토큰을 서버에 쏴줌
+        val userId = Supabase.client.auth.currentUserOrNull()?.id
+        if (userId != null) {
+            WelfareRepository.updateFcmToken(userId)
+        }
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {

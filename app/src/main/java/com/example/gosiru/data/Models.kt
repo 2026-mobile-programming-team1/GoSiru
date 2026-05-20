@@ -10,7 +10,6 @@ data class UserProfile(
     val gender: String,
     @SerialName("job_status") val jobStatus: String,
     @SerialName("income_level") val incomeLevel: Int,
-    @SerialName("fcm_token") val fcmToken: String? = null,
     @SerialName("is_admin") val isAdmin: Boolean? = false,
     @SerialName("household_count") val householdCount: Int? = null,
     @SerialName("is_disabled") val isDisabled: Boolean = false,
