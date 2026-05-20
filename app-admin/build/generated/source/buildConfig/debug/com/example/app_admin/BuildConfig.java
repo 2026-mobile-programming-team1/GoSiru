@@ -10,7 +10,7 @@ public final class BuildConfig {
   public static final int VERSION_CODE = 1;
   public static final String VERSION_NAME = "1.0";
   // Field from default config.
-  public static final String SUPABASE_KEY = "sb_publishable_xXdm3U_wg_o1vnkNHM2H2g_xFYSxpCg";
+  public static final String SUPABASE_KEY = "null";
   // Field from default config.
-  public static final String SUPABASE_URL = "https://xaiupieqloeoyerhkufv.supabase.co";
+  public static final String SUPABASE_URL = "null";
 }

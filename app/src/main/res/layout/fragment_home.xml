@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/bottomNav"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:padding="30dp">
 
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/home"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background"
+    android:padding="30dp"
+    android:paddingBottom="120dp">
+
+
+    <!-- 추후 삭제 및 재구성 -->
     <!-- 시루 잔액 표시 -->
     <LinearLayout
         android:id="@+id/cardBalance"
@@ -83,7 +94,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
     <!-- 누적 혜택 -->
     <LinearLayout
         android:id="@+id/sectionBenefit"
@@ -158,6 +168,8 @@
             android:fontFamily="@font/pretendard"
             android:textStyle="bold"/>
     </LinearLayout>
+
+
 
     <!-- 맞춤형 지역 혜택 -->
     <LinearLayout
@@ -317,13 +329,5 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/BtnProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="프로필 작성 여부 전환 버튼(테스트용)"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

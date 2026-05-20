@@ -19,7 +19,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="GO시루"
+        android:text="시루떡"
         android:textColor="@color/text1"
         android:fontFamily="@font/pretendard"
         android:textStyle="bold" />

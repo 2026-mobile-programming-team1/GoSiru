@@ -11,66 +11,54 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private var isProfileDone = false
+
+    private val mainActivity: MainActivity
+        get() = activity as MainActivity
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // 바인딩 연결
         _binding = FragmentHomeBinding.bind(view)
 
         updateProfileSection()
 
-        // 테스트 버튼 클릭
+        // 테스트용: 프로필 상태 토글
         binding.BtnProfile.setOnClickListener {
-
-            isProfileDone = !isProfileDone
-            updateProfileSection()
+            mainActivity?.let {
+                it.isProfileDone = !it.isProfileDone
+                updateProfileSection()
+            }
         }
 
-        binding.btnOpenApp.setOnClickListener {
-            Log.d("HomeFragment", "지역 화폐 결제 앱 이동 버튼 클릭")
-        }
-
-        binding.btnBenefitDetail.setOnClickListener {
-            Log.d("HomeFragment", "내역 보기 버튼 클릭")
-        }
-
-        binding.BtnViewAll.setOnClickListener {
-            Log.d("HomeFragment", "전체 보기 버튼 클릭")
-        }
-
-        binding.btnApplication.setOnClickListener {
-            Log.d("HomeFragment", "신청 하기 버튼 클릭")
-        }
-
+        // 프로필 작성/편집 페이지로 이동
         binding.BtnOpenProfileEdit.setOnClickListener {
-            Log.d("HomeFragment", "프로필 작성하기 버튼 클릭")
+            // 1. 먼저 ProfileFragment로 화면을 교체합니다. (이때 백스택에 넣지 않아야 Home이 대체됨)
+            mainActivity.replaceFragment(ProfileFragment())
+
+            // 2. 그 위에 EditFragment를 엽니다. (이 함수 내부에서 addToBackStack이 실행됨)
+            mainActivity.openProfileEditFragment()
+
+            Log.d("HomeFragment", "프로필 작성 화면으로 이동 (Profile 거쳐서 Edit)")
         }
 
+        setupClickListeners()
+    }
 
-        // TODO: 홈 화면 기능 작성
+
+    private fun setupClickListeners() {
+        binding.btnOpenApp.setOnClickListener { Log.d("HomeFragment", "지역 화폐 클릭") }
     }
 
     private fun updateProfileSection() {
+        val isDone = mainActivity?.isProfileDone ?: false
 
-        if (isProfileDone) {
-            //프로필 작성시
-            binding.sectionProfileDone.visibility = View.VISIBLE
-            binding.sectionProfileEmpty.visibility = View.GONE
-
-        } else {
-            //프로필 미 작성시
-            binding.sectionProfileEmpty.visibility = View.VISIBLE
-            binding.sectionProfileDone.visibility = View.GONE
+        binding.apply {
+            sectionProfileDone.visibility = if (isDone) View.VISIBLE else View.GONE
+            sectionProfileEmpty.visibility = if (isDone) View.GONE else View.VISIBLE
         }
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
-
-        // 메모리 누수 방지
         _binding = null
     }
 }

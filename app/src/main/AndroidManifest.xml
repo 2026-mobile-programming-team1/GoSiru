@@ -14,8 +14,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GOSiru">
+        <activity
+            android:name=".AdminFragment"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileFragement"
+            android:exported="false" />
 
-
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="${KAKAO_APP_KEY}" />
 
         <activity
             android:name=".MainActivity"
