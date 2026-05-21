@@ -8,7 +8,7 @@ data class UserProfile(
     val id: String, // Supabase Auth의 유저 UID
     @SerialName("birth_date") val birthDate: String, // DB 타입이 date이므로 "YYYY-MM-DD" 포맷
     val gender: String,
-    @SerialName("job_status") val jobStatus: String,
+    @SerialName("job_status") val jobStatus: String?,
     @SerialName("income_level") val incomeLevel: Int,
     @SerialName("is_admin") val isAdmin: Boolean? = false,
     @SerialName("household_count") val householdCount: Int? = null,

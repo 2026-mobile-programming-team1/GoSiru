@@ -69,12 +69,13 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
                 // 칩 그룹에서 선택된 값 가져오기
                 val genderChip = binding.cgGender.findViewById<com.google.android.material.chip.Chip>(binding.cgGender.checkedChipId)
                 val gender = genderChip?.text?.toString() ?: "남성"
-
+                val jobChip = binding.cgJob.findViewById<com.google.android.material.chip.Chip>(binding.cgJob.checkedChipId)
+                val jobStatus = jobChip?.text?.toString()
                 val profile = UserProfile(
                     id = userId,
                     birthDate = birthDate,
                     gender = gender,
-                    jobStatus = "학생", // 임시
+                    jobStatus = jobStatus,
                     incomeLevel = incomeLevel,
                     householdCount = 1, // DB에 컬럼 추가했는지 확인!
                 )

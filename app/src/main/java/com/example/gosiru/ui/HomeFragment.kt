@@ -117,7 +117,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     // 4번 CCTV: 매칭된 리스트 가져오기
                     val matchedList = WelfareRepository.getMatchedWelfare(
                         age = currentAge,
-                        jobStatus = myProfile.jobStatus,
+                        jobStatus = myProfile.jobStatus?: "",
                         incomeLevel = myProfile.incomeLevel,
                         isDisabled = myProfile.isDisabled,
                         isForeigner = myProfile.isForeigner,
