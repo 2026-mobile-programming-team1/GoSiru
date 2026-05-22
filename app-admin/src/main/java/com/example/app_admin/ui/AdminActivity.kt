@@ -94,10 +94,16 @@ class AdminActivity : AppCompatActivity() {
                     true -> {
                         Toast.makeText(this@AdminActivity, "등록 성공!", Toast.LENGTH_SHORT).show()
                         Log.d("ADMIN_TEST", "✅ DB 저장 성공!")
+                        // 1. 성공 시 입력 폼 초기화
+                        clearInputs()
+
+                        // 2. 상태를 null로 초기화하여 다음 번에도 이벤트가 발생하게 만듦
+                        viewModel.resetStatus()
                     }
                     false -> {
                         Toast.makeText(this@AdminActivity, "등록 실패..", Toast.LENGTH_SHORT).show()
                         Log.e("ADMIN_TEST", "❌ DB 저장 실패!")
+                        viewModel.resetStatus()
                     }
                     null -> {}
                 }
@@ -112,5 +118,26 @@ class AdminActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+    private fun clearInputs() {
+        // 1. 텍스트 입력칸 초기화
+        binding.etTitle.text?.clear()
+        binding.etContent.text?.clear()
+        binding.etAmount.text?.clear()
+        binding.etLink.text?.clear()
+        binding.etMinAge.text?.clear()
+        binding.etMaxAge.text?.clear()
+        binding.etIncomeLimit.text?.clear()
+
+        // 2. 직업 칩 그룹 초기화 (선택 해제)
+        binding.cgJob.clearCheck()
+
+        // 3. 성별 라디오 버튼 초기화 (XML 기본값인 '전체'로 되돌림)
+        binding.radioGender.check(R.id.rbAll)
+
+        // 4. 스위치 초기화 (누락되었던 switchBenefit 추가)
+        binding.switchBenefit.isChecked = false
+        binding.switchDisabled.isChecked = false
+        binding.switchForeigner.isChecked = false
     }
 }
