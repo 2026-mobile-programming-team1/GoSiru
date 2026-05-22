@@ -1,5 +1,6 @@
 package com.example.gosiru.ui // 패키지명 확인!
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -60,7 +61,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         updateProfileSection()
     }
     private fun setupClickListeners() {
-        binding.btnOpenApp.setOnClickListener { Log.d("HomeFragment", "지역 화폐 클릭") }
+        binding.btnOpenApp.setOnClickListener {
+            Log.d("HomeFragment", "지역 화폐 클릭")
+
+            // 바뀐 CHAK 앱 패키지명 적용
+            val chakPackageName = "com.komscochak.m2.client"
+            val intent = requireContext().packageManager.getLaunchIntentForPackage(chakPackageName)
+
+            if (intent != null) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                requireContext().startActivity(intent)
+            } else {
+                val playStoreIntent = Intent(Intent.ACTION_VIEW).apply {
+                    data = android.net.Uri.parse("market://details?id=$chakPackageName")
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+                requireContext().startActivity(playStoreIntent)
+            }
+        }
     }
 
     // 👉 추가된 부분: 리사이클러뷰랑 어댑터 연결하는 함수
