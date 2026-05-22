@@ -42,6 +42,17 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:layout_marginTop="4dp"/>
+        <TextView
+            android:id="@+id/btnApply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="혜택 신청 바로가기 >"
+            android:textColor="#0057D9"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            android:gravity="end"
+            android:padding="8dp" />
+
 
     </LinearLayout>
 

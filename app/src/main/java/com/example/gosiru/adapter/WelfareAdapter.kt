@@ -20,6 +20,7 @@ class WelfareAdapter(
         val title: TextView = view.findViewById(R.id.tvTitle)
         val content: TextView = view.findViewById(R.id.tvContent)
         val siruBadge: TextView = view.findViewById(R.id.tvSiruBadge)
+        val btnApply: TextView = view.findViewById(R.id.btnApply)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,7 +36,14 @@ class WelfareAdapter(
 
         // DB에서 값이 없을 수 있으므로 == true 로 명확히 체크
         holder.siruBadge.visibility = if (item.isSiru == true) View.VISIBLE else View.GONE
-
+        if (!item.applyLink.isNullOrBlank()) {
+            holder.btnApply.visibility = View.VISIBLE
+            holder.btnApply.setOnClickListener {
+                openApplyLink(holder.itemView.context, item.applyLink)
+            }
+        } else {
+            holder.btnApply.visibility = View.GONE
+        }
         holder.itemView.setOnClickListener {
             item.applyLink?.let { link ->
                 openApplyLink(holder.itemView.context, link)
