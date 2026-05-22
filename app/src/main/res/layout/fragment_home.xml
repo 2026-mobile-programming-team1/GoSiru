@@ -8,7 +8,8 @@
     android:layout_height="match_parent"
 
     android:fillViewport="true"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    android:paddingBottom="100dp"    android:clipToPadding="false">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/home"
@@ -16,7 +17,7 @@
     android:layout_height="wrap_content"
     android:background="@color/background"
     android:padding="30dp"
-    android:paddingBottom="120dp">
+    >
 
 
     <!-- 추후 삭제 및 재구성 -->
