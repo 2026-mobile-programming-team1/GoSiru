@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
@@ -21,6 +22,13 @@ import com.google.firebase.messaging.FirebaseMessaging
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.lifecycleScope
+import com.example.gosiru.data.Notification
+import com.example.gosiru.network.Supabase
+import io.github.jan.supabase.postgrest.from
+import kotlinx.coroutines.launch
+import java.util.Locale.filter
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -78,13 +86,40 @@ class MainActivity : AppCompatActivity() {
         setAppBar(R.layout.app_bar)
 
         // 알림 버튼 클릭
+        val redDot = findViewById<View>(R.id.redDot)
+        lifecycleScope.launch {
+            try {
+                // Supabase에서 notifications 테이블 조회
+                val unreadCount = Supabase.client.from("notifications")
+                    .select {
+                        filter {
+                            // eq("user_id", 현재_로그인한_유저_ID) // 필요시 유저 필터링 추가
+                            eq("is_read", false) // 👈 핵심: 안 읽은 알림(false)만 골라내기
+                        }
+                    }.decodeList<Notification>().size // 개수 세기
+
+                // 💡 2. 안 읽은 알림 개수에 따라 빨간 점 제어
+                if (unreadCount > 0) {
+                    redDot.visibility = View.VISIBLE  // 토스처럼 점 켜기!
+                } else {
+                    redDot.visibility = View.GONE     // 다 읽었으면 점 끄기!
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                // 에러 나면 안전하게 점을 숨김
+                redDot.visibility = View.GONE
+            }
+        }
+        // redDot.visibility = View.VISIBLE
+
         val btnNotification = findViewById<ImageView>(R.id.bell)
         btnNotification.setOnClickListener {
+
+            redDot.visibility = View.GONE
             val intent = Intent(this, NotificationActivity::class.java)
             startActivity(intent)
         }
 
-        // 💥 [여기서부터 핵심!] Compose 네비게이션 바 연결 💥
         binding.composeBottomNav.setContent {
             MainBottomNavBar { selectedIndex ->
                 when (selectedIndex) {
