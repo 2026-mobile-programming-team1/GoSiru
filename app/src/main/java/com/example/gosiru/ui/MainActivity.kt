@@ -3,23 +3,17 @@ package com.example.gosiru.ui
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.example.gosiru.ui.HomeFragment
-import com.example.gosiru.ui.ProfileEditFragment
-import com.example.gosiru.ui.ProfileFragment
 import com.example.gosiru.R
 import com.example.gosiru.databinding.ActivityMainBinding
 import com.google.firebase.messaging.FirebaseMessaging
@@ -31,20 +25,13 @@ class MainActivity : AppCompatActivity() {
     var isProfileDone = false
     var isEditingProfile = false
 
-    private lateinit var tabHome: LinearLayout
-    private lateinit var tabProfile: LinearLayout
-    private lateinit var imgHome: ImageView
-    private lateinit var imgProfile: ImageView
-    private lateinit var txtHome: TextView
-    private lateinit var txtProfile: TextView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // ==========================================
-        // [추가된 부분] 상대방 브랜치에서 가져온 FCM 토큰 및 권한 요청 로직
+        // FCM 토큰 및 권한 요청 로직 (기존 유지)
         // ==========================================
         FirebaseMessaging.getInstance().token
             .addOnCompleteListener { task ->
@@ -65,8 +52,6 @@ class MainActivity : AppCompatActivity() {
         }
         // ==========================================
 
-        initViews()
-
         supportFragmentManager.addOnBackStackChangedListener {
             updateAppBarByCurrentFragment()
         }
@@ -74,27 +59,28 @@ class MainActivity : AppCompatActivity() {
         // 첫 화면
         replaceFragment(HomeFragment())
         setAppBar(R.layout.app_bar)
-        updateBottomNavUI(isHome = true)
 
-        //알림 버튼 클릭
+        // 알림 버튼 클릭
         val btnNotification = findViewById<ImageView>(R.id.bell)
         btnNotification.setOnClickListener {
             val intent = Intent(this, NotificationActivity::class.java)
             startActivity(intent)
         }
 
-        // 홈 탭
-        tabHome.setOnClickListener {
-            moveFragmentWithCheck(HomeFragment()) { updateBottomNavUI(isHome = true) }
+        // 💥 [여기서부터 핵심!] Compose 네비게이션 바 연결 💥
+        binding.composeBottomNav.setContent {
+            MainBottomNavBar { selectedIndex ->
+                when (selectedIndex) {
+                    0 -> moveFragmentWithCheck(HomeFragment()) {}
+                    1 -> {
+                        // 혜택 탭 프래그먼트 생기면 여기에 넣기 (예: moveFragmentWithCheck(BenefitFragment()) {})
+                    }
+                    2 -> moveFragmentWithCheck(ProfileFragment()) {}
+                }
+            }
         }
 
-        // 프로필 탭
-        tabProfile.setOnClickListener {
-            moveFragmentWithCheck(ProfileFragment()) { updateBottomNavUI(isHome = false) }
-        }
-
-
-
+        // 뒤로가기 로직 (기존 유지)
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (isEditingProfile) {
@@ -113,29 +99,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-    }
-
-    private fun initViews() {
-        tabHome = findViewById(R.id.tabHome)
-        tabProfile = findViewById(R.id.tabProfile)
-        imgHome = findViewById(R.id.imgHome)
-        imgProfile = findViewById(R.id.imgProfile)
-        txtHome = findViewById(R.id.txtHome)
-        txtProfile = findViewById(R.id.txtProfile)
-    }
-
-    private fun updateBottomNavUI(isHome: Boolean) {
-        tabHome.isSelected = isHome
-        tabProfile.isSelected = !isHome
-
-        val activeColor = Color.parseColor("#FEFCFF")
-        val inactiveColor = Color.parseColor("#424754")
-
-        imgHome.setColorFilter(if (isHome) activeColor else inactiveColor)
-        txtHome.setTextColor(if (isHome) activeColor else inactiveColor)
-
-        imgProfile.setColorFilter(if (!isHome) activeColor else inactiveColor)
-        txtProfile.setTextColor(if (!isHome) activeColor else inactiveColor)
     }
 
     fun replaceFragment(fragment: Fragment) {
