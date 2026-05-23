@@ -78,6 +78,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
                 requireContext().startActivity(playStoreIntent)
             }
+
         }
     }
 
