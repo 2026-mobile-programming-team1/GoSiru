@@ -1,6 +1,7 @@
 package com.example.gosiru.ui
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
@@ -75,6 +76,13 @@ class MainActivity : AppCompatActivity() {
         setAppBar(R.layout.app_bar)
         updateBottomNavUI(isHome = true)
 
+        //알림 버튼 클릭
+        val btnNotification = findViewById<ImageView>(R.id.bell)
+        btnNotification.setOnClickListener {
+            val intent = Intent(this, NotificationActivity::class.java)
+            startActivity(intent)
+        }
+
         // 홈 탭
         tabHome.setOnClickListener {
             moveFragmentWithCheck(HomeFragment()) { updateBottomNavUI(isHome = true) }
@@ -84,6 +92,8 @@ class MainActivity : AppCompatActivity() {
         tabProfile.setOnClickListener {
             moveFragmentWithCheck(ProfileFragment()) { updateBottomNavUI(isHome = false) }
         }
+
+
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {

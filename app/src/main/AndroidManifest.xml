@@ -35,6 +35,7 @@
             android:theme="@style/Theme.GOSiru">
         </activity>
 
+        <activity android:name=".ui.NotificationActivity" />
         <service
             android:name=".network.FcmService"
             android:exported="false">
