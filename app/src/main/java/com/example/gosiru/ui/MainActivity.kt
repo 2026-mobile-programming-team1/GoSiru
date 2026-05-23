@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import com.example.gosiru.R
 import com.example.gosiru.databinding.ActivityMainBinding
@@ -31,12 +32,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
         // 화면 가장자리를 스와이프하면 잠깐 나타났다가 다시 사라지게 설정
-        windowInsetsController.systemBarsBehavior =
-            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        // 시스템 바 숨김 처리
-        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+        // 1. 앱 내용이 시스템 바(상태바, 네비바) 영역까지 확장되도록 허용
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        // 2. 상태바/네비바 배경이 밝을 경우 글자(아이콘) 색상을 어둡게 변경
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+        windowInsetsController.isAppearanceLightStatusBars = true // 상단 상태바 글자 검은색
+        windowInsetsController.isAppearanceLightNavigationBars = true // 하단 네비바 아이콘 검은색
+
+        // 3. 내용이 시스템 바와 겹치지 않도록 안쪽 여백(Padding)을 줘서 액자처럼 밀어 넣음
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
         // ==========================================
         // FCM 토큰 및 권한 요청 로직 (기존 유지)
         // ==========================================
