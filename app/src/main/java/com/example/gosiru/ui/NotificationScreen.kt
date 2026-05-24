@@ -2,6 +2,7 @@ package com.example.gosiru.ui
 
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -73,27 +74,28 @@ fun NotificationScreen(viewModel: NotificationViewModel) {
             ) {
                 items(notifications) { item ->
                     NotificationCard(item = item) {
-                        // 1. apply_link를 우선으로 찾고, 없으면 url을 가져오는 로직
-                        val targetLink = item.applyLink ?: item.url
+                        // 💡 [핵심] welfareId가 있을 때만 실행하는 안전장치
+                        item.welfareId?.let { id ->
+                            // 1. 뷰모델을 통해 DB에서 진짜 링크를 가져옵니다.
+                            viewModel.getWelfareLink(id) { link ->
+                                if (!link.isNullOrBlank()) {
+                                    // 2. 링크 주소 가공 (https 보정)
+                                    val safeLink = if (!link.startsWith("http")) "https://$link" else link
 
-                        // 2. 링크가 비어있지 않을 때만 실행 (팀원 실수 완벽 방어)
-                        targetLink?.let { link ->
-                            if (link.isNotBlank()) {
-                                // http:// 또는 https:// 가 없으면 강제로 붙여줌
-                                val safeLink = if (!link.startsWith("http://") && !link.startsWith("https://")) {
-                                    "https://$link"
+                                    try {
+                                        // 3. 시스템 브라우저 실행
+                                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(safeLink))
+                                        context.startActivity(intent)
+                                    } catch (e: Exception) {
+                                        Toast.makeText(context, "브라우저를 열 수 없습니다.", Toast.LENGTH_SHORT).show()
+                                    }
                                 } else {
-                                    link
-                                }
-
-                                // 3. 시스템 브라우저를 열어 해당 링크로 직행
-                                try {
-                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(safeLink))
-                                    context.startActivity(intent)
-                                } catch (e: Exception) {
-                                    e.printStackTrace()
+                                    Toast.makeText(context, "등록된 신청 링크가 없습니다.", Toast.LENGTH_SHORT).show()
                                 }
                             }
+                        } ?: run {
+                            // welfareId 자체가 null인 경우 처리
+                            Toast.makeText(context, "연결된 복지 정보가 없습니다.", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
