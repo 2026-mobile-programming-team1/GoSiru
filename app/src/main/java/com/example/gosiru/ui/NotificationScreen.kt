@@ -2,6 +2,7 @@ package com.example.gosiru.ui
 
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -41,7 +42,6 @@ fun NotificationScreen(viewModel: NotificationViewModel) {
                     Text(
                         text = "알림 목록",
                         fontWeight = FontWeight.Bold,
-                        // XML의 @color/text1 느낌의 진한 색상
                         color = Color(0xFF212121)
                     )
                 },
@@ -50,7 +50,6 @@ fun NotificationScreen(viewModel: NotificationViewModel) {
                 )
             )
         },
-        // XML의 @color/background 와 유사한 연한 회색/푸른빛 배경
         containerColor = Color(0xFFF4F5F9)
     ) { paddingValues ->
         if (notifications.isEmpty()) {
@@ -60,7 +59,6 @@ fun NotificationScreen(viewModel: NotificationViewModel) {
             ) {
                 Text(
                     text = "새로운 알림이 없습니다.",
-                    // XML의 @color/text3 느낌의 색상
                     color = Color(0xFF888888),
                     fontWeight = FontWeight.SemiBold
                 )
@@ -70,15 +68,34 @@ fun NotificationScreen(viewModel: NotificationViewModel) {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .padding(horizontal = 24.dp), // XML 디자인의 paddingStart="24dp" 유지
-                verticalArrangement = Arrangement.spacedBy(16.dp), // 카드 사이 간격
+                    .padding(horizontal = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
                 contentPadding = PaddingValues(vertical = 20.dp)
             ) {
                 items(notifications) { item ->
                     NotificationCard(item = item) {
-                        if (!item.url.isNullOrEmpty()) {
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(item.url))
-                            context.startActivity(intent)
+                        // 💡 [핵심] welfareId가 있을 때만 실행하는 안전장치
+                        item.welfareId?.let { id ->
+                            // 1. 뷰모델을 통해 DB에서 진짜 링크를 가져옵니다.
+                            viewModel.getWelfareLink(id) { link ->
+                                if (!link.isNullOrBlank()) {
+                                    // 2. 링크 주소 가공 (https 보정)
+                                    val safeLink = if (!link.startsWith("http")) "https://$link" else link
+
+                                    try {
+                                        // 3. 시스템 브라우저 실행
+                                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(safeLink))
+                                        context.startActivity(intent)
+                                    } catch (e: Exception) {
+                                        Toast.makeText(context, "브라우저를 열 수 없습니다.", Toast.LENGTH_SHORT).show()
+                                    }
+                                } else {
+                                    Toast.makeText(context, "등록된 신청 링크가 없습니다.", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        } ?: run {
+                            // welfareId 자체가 null인 경우 처리
+                            Toast.makeText(context, "연결된 복지 정보가 없습니다.", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -89,30 +106,27 @@ fun NotificationScreen(viewModel: NotificationViewModel) {
 
 @Composable
 fun NotificationCard(item: Notification, onClick: () -> Unit) {
-    // XML의 bg_admin_benefit_register 배경과 동일한 곡률(16dp)과 흰색 배경
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp) // 그림자 없이 깔끔하게
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Row(
-            modifier = Modifier.padding(20.dp), // XML 카드의 내부 padding 유지
+            modifier = Modifier.padding(20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // 좌측 아이콘 (XML의 bg_benefit_icon 스타일 재현)
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(12.dp))
-                    .background(Color(0xFFEEF2FF)) // 아주 연한 파란색 배경
+                    .background(Color(0xFFEEF2FF))
                     .padding(12.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Notifications,
                     contentDescription = "Notification Icon",
-                    // 앱의 메인 버튼 색상(Blue)과 톤앤매너 맞춤
                     tint = Color(0xFF3262E5),
                     modifier = Modifier.size(24.dp)
                 )
@@ -120,7 +134,6 @@ fun NotificationCard(item: Notification, onClick: () -> Unit) {
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            // 우측 텍스트 정보
             Column(modifier = Modifier.weight(1f)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -131,12 +144,13 @@ fun NotificationCard(item: Notification, onClick: () -> Unit) {
                         text = item.title,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF212121) // @color/text1
+                        color = Color(0xFF212121)
                     )
+
                     Text(
                         text = item.created_at?.take(10) ?: "",
                         fontSize = 12.sp,
-                        color = Color(0xFF888888) // @color/text3
+                        color = Color(0xFF888888)
                     )
                 }
 
@@ -146,7 +160,7 @@ fun NotificationCard(item: Notification, onClick: () -> Unit) {
                     text = item.body,
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
-                    color = Color(0xFF666666) // @color/text2 느낌
+                    color = Color(0xFF666666)
                 )
             }
         }

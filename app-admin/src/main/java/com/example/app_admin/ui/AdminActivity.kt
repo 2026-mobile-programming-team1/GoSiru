@@ -76,6 +76,7 @@ class AdminActivity : AppCompatActivity() {
         viewModel.registerWelfare(
             title = binding.etTitle.text.toString(),
             content = binding.etContent.text.toString(),
+            applyLink = binding.etLink.text.toString(),
             minAge = binding.etMinAge.text.toString().toIntOrNull(),
             maxAge = binding.etMaxAge.text.toString().toIntOrNull(),
             job = selectedJob,
