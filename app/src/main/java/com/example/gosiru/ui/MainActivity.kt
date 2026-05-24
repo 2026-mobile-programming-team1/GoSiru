@@ -20,7 +20,7 @@ import com.example.gosiru.databinding.ActivityMainBinding
 import com.google.firebase.messaging.FirebaseMessaging
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -32,24 +32,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // 화면 가장자리를 스와이프하면 잠깐 나타났다가 다시 사라지게 설정
-        // 1. 앱 내용이 시스템 바(상태바, 네비바) 영역까지 확장되도록 허용
+
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        // 2. 상태바/네비바 배경이 밝을 경우 글자(아이콘) 색상을 어둡게 변경
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
-        windowInsetsController.isAppearanceLightStatusBars = true // 상단 상태바 글자 검은색
-        windowInsetsController.isAppearanceLightNavigationBars = true // 하단 네비바 아이콘 검은색
+        windowInsetsController.isAppearanceLightStatusBars = true
+        windowInsetsController.isAppearanceLightNavigationBars = true
 
-        // 3. 내용이 시스템 바와 겹치지 않도록 안쪽 여백(Padding)을 줘서 액자처럼 밀어 넣음
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        // ==========================================
-        // FCM 토큰 및 권한 요청 로직 (기존 유지)
-        // ==========================================
+
         FirebaseMessaging.getInstance().token
             .addOnCompleteListener { task ->
                 if (!task.isSuccessful) {
@@ -60,56 +55,47 @@ class MainActivity : AppCompatActivity() {
                 Log.d("FCM_TOKEN", token)
             }
 
-        // 알림 권한 요청 (Android 13 이상)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
                 != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 0)
             }
         }
-        // ==========================================
 
         supportFragmentManager.addOnBackStackChangedListener {
             updateAppBarByCurrentFragment()
         }
 
-        // 첫 화면
+        // 첫 화면 지정
         replaceFragment(HomeFragment())
         setAppBar(R.layout.app_bar)
 
-        // 알림 버튼 클릭
         val btnNotification = findViewById<ImageView>(R.id.bell)
         btnNotification.setOnClickListener {
             val intent = Intent(this, NotificationActivity::class.java)
             startActivity(intent)
         }
 
-        // 💥 [여기서부터 핵심!] Compose 네비게이션 바 연결 💥
+        // 하단바 클릭 시 대응 로직 수정
         binding.composeBottomNav.setContent {
             MainBottomNavBar { selectedIndex ->
                 when (selectedIndex) {
                     0 -> moveFragmentWithCheck(HomeFragment()) {}
-                    1 -> {
-                        // 혜택 탭 프래그먼트 생기면 여기에 넣기 (예: moveFragmentWithCheck(BenefitFragment()) {})
-                    }
+                    1 -> moveFragmentWithCheck(BenefitFragment()) {} // 👈 여기 정상 연결함
                     2 -> moveFragmentWithCheck(ProfileFragment()) {}
                 }
             }
         }
 
-        // 뒤로가기 로직 (기존 유지)
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (isEditingProfile) {
-                    // 편집 중이면 저장 다이얼로그 띄우기
                     showSaveDialog {}
                 } else {
-                    // 이전 프래그먼트가 남아있으면 뒤로 가기
                     if (supportFragmentManager.backStackEntryCount > 0) {
                         supportFragmentManager.popBackStack()
                         setAppBar(R.layout.app_bar)
                     } else {
-                        // 백스택이 없으면 진짜 앱 종료 처리
                         isEnabled = false
                         onBackPressedDispatcher.onBackPressed()
                     }
