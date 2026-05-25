@@ -53,6 +53,7 @@ class BenefitFragment : Fragment(R.layout.fragment_benefit) {
         binding.rvWelfareList.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = welfareAdapter
+            isNestedScrollingEnabled = false
         }
     }
 
