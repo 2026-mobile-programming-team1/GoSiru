@@ -85,7 +85,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
                     gender = gender,
                     jobStatus = jobStatus,
                     incomeLevel = incomeLevel,
-                    householdCount = 1, // DB에 컬럼 추가했는지 확인!
+                    householdCount = householdCount, // DB에 컬럼 추가했는지 확인!
                 )
 
                 // DB 저장 요청
