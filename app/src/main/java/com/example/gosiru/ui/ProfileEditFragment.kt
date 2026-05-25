@@ -24,7 +24,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
         _binding = FragmentProfileEditBinding.bind(view)
 
         setupUI()
-        loadMyProfileData() // 🔥 기존 데이터 불러오기 추가
+        loadMyProfileData() //  기존 데이터 불러오기 추가
 
         // 저장 버튼
         // 저장 버튼 클릭 시
@@ -60,7 +60,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val userId = Supabase.client.auth.currentUserOrNull()?.id ?: return@launch
-
+                val name = binding.etName.text.toString()
                 // 데이터 추출
                 val birthYear = binding.dropdownBirthYear.text.toString().filter { it.isDigit() }
                 val birthDate = if (birthYear.isNotEmpty()) "$birthYear-01-01" else "2000-01-01"
@@ -71,8 +71,16 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
                 val gender = genderChip?.text?.toString() ?: "남성"
                 val jobChip = binding.cgJob.findViewById<com.google.android.material.chip.Chip>(binding.cgJob.checkedChipId)
                 val jobStatus = jobChip?.text?.toString()
+                val householdChip = binding.cgHousehold.findViewById<com.google.android.material.chip.Chip>(binding.cgHousehold.checkedChipId)
+                val householdCount = when (householdChip?.text?.toString()) {
+                    "1인 가구" -> 1
+                    "2인 가구" -> 2
+                    else -> 3
+                }
+
                 val profile = UserProfile(
                     id = userId,
+                    name = name,
                     birthDate = birthDate,
                     gender = gender,
                     jobStatus = jobStatus,
@@ -84,10 +92,10 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
                 val isSuccess = WelfareRepository.saveUserProfile(profile)
 
                 if (isSuccess) {
-                    Log.d("ProfileEdit", "✅ 프로필 DB 저장 성공!")
+                    Log.d("ProfileEdit", " 프로필 DB 저장 성공!")
 
                     val mainAct = activity as MainActivity
-                    // 🔥 화면 닫기 전에 무조건 상태부터 false로 변경!
+                    //  화면 닫기 전에 무조건 상태부터 false로 변경!
                     mainAct.isProfileDone = true
                     mainAct.isEditingProfile = false
 
@@ -95,7 +103,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
                     parentFragmentManager.popBackStack()
                     mainAct.setAppBar(R.layout.app_bar)
                 } else {
-                    Log.e("ProfileEdit", "❌ 프로필 DB 저장 실패")
+                    Log.e("ProfileEdit", " 프로필 DB 저장 실패")
                 }
             } catch (e: Exception) {
                 Log.e("ProfileEdit", "저장 실패", e)
@@ -121,7 +129,8 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
 
                 // 뷰가 유효하고 프로필 데이터가 존재할 때만 실행
                 if (_binding != null && profile != null) {
-                    // 출생 연도 글자 세팅
+                    // 이름 셋팅
+                    binding.etName.setText(profile.name ?: "")// 출생 연도 글자 세팅
                     binding.dropdownBirthYear.setText(profile.birthDate.take(4), false)
 
                     // 소득 수준 시크바 세팅
@@ -154,6 +163,13 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
                         binding.cgNationality.check(R.id.NationalityForeign)
                     } else {
                         binding.cgNationality.check(R.id.NationalityLocal)
+                    }
+
+                // 가구형태 칩 그룹 상태 복구  ← 여기 추가
+                    when (profile.householdCount) {
+                        1 -> binding.cgHousehold.check(R.id.house1)
+                        2 -> binding.cgHousehold.check(R.id.house2)
+                        else -> binding.cgHousehold.check(R.id.house3)
                     }
                 }
             } catch (e: Exception) {

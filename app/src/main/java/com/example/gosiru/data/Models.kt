@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UserProfile(
     val id: String,
+    val name : String? = null,
     @SerialName("birth_date") val birthDate: String,
     val gender: String,
     @SerialName("job_status") val jobStatus: String? = null,
@@ -13,7 +14,8 @@ data class UserProfile(
     @SerialName("is_admin") val isAdmin: Boolean? = false,
     @SerialName("household_count") val householdCount: Int? = null,
     @SerialName("is_disabled") val isDisabled: Boolean = false,
-    @SerialName("is_foreigner") val isForeigner: Boolean = false
+    @SerialName("is_foreigner") val isForeigner: Boolean = false,
+
 )
 
 @Serializable
