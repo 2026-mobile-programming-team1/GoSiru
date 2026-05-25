@@ -53,9 +53,33 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
 
-        // 누적 혜택 내역 보기 버튼 예시 (필요시 구현)
+        // 누적 혜택 내역 보기 버튼
         binding.btnBenefitDetail.setOnClickListener {
             Log.d("HomeFragment", "누적 혜택 내역 보기 클릭")
+        }
+
+        // 🔥 여기서부터 추가됨: 2026 신규 정책 카드 클릭 이벤트
+        binding.btnNewPolicy.setOnClickListener {
+            val fragment = HighlightFragment().apply {
+                arguments = Bundle().apply { putString("TAB_TYPE", "NEW") }
+            }
+            // 뒤로가기를 위해 addToBackStack(null) 필수
+            mainActivity.supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
+        // 🔥 여기서부터 추가됨: 2026 인상된 지원금 카드 클릭 이벤트
+        binding.btnIncreasedPolicy.setOnClickListener {
+            val fragment = HighlightFragment().apply {
+                arguments = Bundle().apply { putString("TAB_TYPE", "INCREASED") }
+            }
+            // 뒤로가기를 위해 addToBackStack(null) 필수
+            mainActivity.supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
         }
     }
 

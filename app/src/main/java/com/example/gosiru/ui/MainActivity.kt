@@ -69,8 +69,13 @@ class MainActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-                != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 0)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    0
+                )
             }
         }
 
@@ -214,10 +219,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateAppBarByCurrentFragment() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-        if (currentFragment is ProfileEditFragment) {
-            setAppBar(R.layout.profile_app_bar)
-        } else {
-            setAppBar(R.layout.app_bar)
+
+        when (currentFragment) {
+            is ProfileEditFragment -> {
+                binding.appBarContainer.visibility = View.VISIBLE
+                setAppBar(R.layout.profile_app_bar)
+            }
+
+            is HighlightFragment -> {
+                // 🔥 핵심: 하이라이트 프래그먼트일 때는 시루떡 공통 상단바를 완전히 숨김(GONE) 처리!
+                binding.appBarContainer.visibility = View.GONE
+            }
+
+            else -> {
+                // 홈, 혜택 등 다른 화면에서는 다시 시루떡 상단바 보이게 복구
+                binding.appBarContainer.visibility = View.VISIBLE
+                setAppBar(R.layout.app_bar)
+            }
         }
     }
 }

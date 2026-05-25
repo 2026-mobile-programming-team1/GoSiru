@@ -75,7 +75,20 @@ object WelfareRepository {
             emptyList()
         }
     }
-
+    // 🔥 2026 하이라이트 전용 데이터 호출 함수 추가
+    suspend fun getHighlightWelfare(changeType: String): List<WelfareItem> {
+        return try {
+            Supabase.client.postgrest.from("welfare_list") // DB 테이블명 확인 필요
+                .select {
+                    filter {
+                        eq("change_type", changeType) // "NEW" 또는 "INCREASED"
+                    }
+                }.decodeList<WelfareItem>()
+        } catch (e: Exception) {
+            android.util.Log.e("Repository", "하이라이트 데이터 불러오기 실패", e)
+            emptyList()
+        }
+    }
     // FCM 토큰만 단독으로 DB에 업데이트하는 실무용 함수
     fun updateFcmToken(userId: String) {
         com.google.firebase.messaging.FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
