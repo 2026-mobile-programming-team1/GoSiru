@@ -6,6 +6,7 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gosiru.R
@@ -20,7 +21,9 @@ class WelfareAdapter(
         val title: TextView = view.findViewById(R.id.tvTitle)
         val content: TextView = view.findViewById(R.id.tvContent)
         val siruBadge: TextView = view.findViewById(R.id.tvSiruBadge)
-        val btnApply: TextView = view.findViewById(R.id.btnApply)
+        val btnApply: ImageView = view.findViewById(R.id.btnApply)
+        val tvAmount: TextView = view.findViewById(R.id.tvAmount)
+        val tvCustomBadge: TextView = view.findViewById(R.id.tvCustomBadge) // 추가!
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,9 +36,19 @@ class WelfareAdapter(
         val item = items[position]
         holder.title.text = item.title ?: "제목 없음"
         holder.content.text = item.content ?: "내용 없음"
+        holder.tvCustomBadge.visibility = View.VISIBLE
 
         // DB에서 값이 없을 수 있으므로 == true 로 명확히 체크
         holder.siruBadge.visibility = if (item.isSiru == true) View.VISIBLE else View.GONE
+
+        // 🔥 지원 금액 표시 (값이 있으면 보여주고, 없으면 숨김)
+        if (!item.amount.isNullOrBlank()) {
+            holder.tvAmount.visibility = View.VISIBLE
+            holder.tvAmount.text = "${item.amount}"
+        } else {
+            holder.tvAmount.visibility = View.GONE
+        }
+
         if (!item.applyLink.isNullOrBlank()) {
             holder.btnApply.visibility = View.VISIBLE
             holder.btnApply.setOnClickListener {

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
+    app:cardCornerRadius="24dp"
     app:cardElevation="4dp">
 
     <LinearLayout
@@ -14,46 +14,82 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- 시루 뱃지 -->
-        <TextView
-            android:id="@+id/tvSiruBadge"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="🌱 시루"
-            android:textColor="#FFFFFF"
-            android:background="#3ECF8E"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            android:visibility="gone"/>
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
 
-        <!-- 제목 -->
+            <TextView
+                android:id="@+id/tvSiruBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🌱 시루"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/bg_badge_green"
+                android:textStyle="bold"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/tvCustomBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="맞춤형"
+                android:textColor="#0057D9"
+                android:background="@drawable/bg_badge_blue"
+                android:textStyle="bold"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:layout_marginEnd="6dp" />
+
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="4dp"/>
 
-        <!-- 내용 -->
         <TextView
             android:id="@+id/tvContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:layout_marginTop="4dp"/>
-        <TextView
-            android:id="@+id/btnApply"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="혜택 신청 바로가기 >"
-            android:textColor="#0057D9"
-            android:textStyle="bold"
+            android:orientation="horizontal"
             android:layout_marginTop="12dp"
-            android:gravity="end"
-            android:padding="8dp" />
+            android:gravity="center_vertical">
 
+            <TextView
+                android:id="@+id/tvAmount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#333333"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <ImageView
+                android:id="@+id/btnApply"
+                android:src="@android:drawable/ic_media_next"
+                android:textStyle="bold"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                app:tint="#87CEEB"
+                android:paddingStart="8dp"
+                android:paddingEnd="4dp" />
+        </LinearLayout>
 
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>
