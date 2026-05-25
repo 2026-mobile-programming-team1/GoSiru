@@ -3,26 +3,31 @@ package com.example.gosiru.ui
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
-import com.example.gosiru.ui.HomeFragment
-import com.example.gosiru.ui.ProfileEditFragment
-import com.example.gosiru.ui.ProfileFragment
 import com.example.gosiru.R
 import com.example.gosiru.databinding.ActivityMainBinding
 import com.google.firebase.messaging.FirebaseMessaging
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.lifecycleScope
+import com.example.gosiru.data.Notification
+import com.example.gosiru.network.Supabase
+import io.github.jan.supabase.postgrest.from
+import kotlinx.coroutines.launch
+import java.util.Locale.filter
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,20 +36,26 @@ class MainActivity : AppCompatActivity() {
     var isProfileDone = false
     var isEditingProfile = false
 
-    private lateinit var tabHome: LinearLayout
-    private lateinit var tabProfile: LinearLayout
-    private lateinit var imgHome: ImageView
-    private lateinit var imgProfile: ImageView
-    private lateinit var txtHome: TextView
-    private lateinit var txtProfile: TextView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        // 2. 상태바/네비바 배경이 밝을 경우 글자(아이콘) 색상을 어둡게 변경
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+        windowInsetsController.isAppearanceLightStatusBars = true
+        windowInsetsController.isAppearanceLightNavigationBars = true
+
+        // 3. 내용이 시스템 바와 겹치지 않도록 안쪽 여백(Padding)을 줘서 액자처럼 밀어 넣음
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
         // ==========================================
-        // [추가된 부분] 상대방 브랜치에서 가져온 FCM 토큰 및 권한 요청 로직
+        // FCM 토큰 및 권한 요청 로직 (기존 유지)
         // ==========================================
         FirebaseMessaging.getInstance().token
             .addOnCompleteListener { task ->
@@ -56,45 +67,73 @@ class MainActivity : AppCompatActivity() {
                 Log.d("FCM_TOKEN", token)
             }
 
-        // 알림 권한 요청 (Android 13 이상)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-                != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 0)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    0
+                )
             }
         }
-        // ==========================================
-
-        initViews()
 
         supportFragmentManager.addOnBackStackChangedListener {
             updateAppBarByCurrentFragment()
         }
 
-        // 첫 화면
+        // 첫 화면 지정
         replaceFragment(HomeFragment())
         setAppBar(R.layout.app_bar)
-        updateBottomNavUI(isHome = true)
 
-        //알림 버튼 클릭
+        // 알림 버튼 클릭
+        val redDot = findViewById<View>(R.id.redDot)
+        lifecycleScope.launch {
+            try {
+                // Supabase에서 notifications 테이블 조회
+                val unreadCount = Supabase.client.from("notifications")
+                    .select {
+                        filter {
+                            // eq("user_id", 현재_로그인한_유저_ID) // 필요시 유저 필터링 추가
+                            eq("is_read", false) // 👈 핵심: 안 읽은 알림(false)만 골라내기
+                        }
+                    }.decodeList<Notification>().size // 개수 세기
+
+                // 💡 2. 안 읽은 알림 개수에 따라 빨간 점 제어
+                if (unreadCount > 0) {
+                    redDot.visibility = View.VISIBLE  // 토스처럼 점 켜기!
+                } else {
+                    redDot.visibility = View.GONE     // 다 읽었으면 점 끄기!
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                // 에러 나면 안전하게 점을 숨김
+                redDot.visibility = View.GONE
+            }
+        }
+        // redDot.visibility = View.VISIBLE
+
         val btnNotification = findViewById<ImageView>(R.id.bell)
         btnNotification.setOnClickListener {
+
+            redDot.visibility = View.GONE
             val intent = Intent(this, NotificationActivity::class.java)
             startActivity(intent)
         }
 
-        // 홈 탭
-        tabHome.setOnClickListener {
-            moveFragmentWithCheck(HomeFragment()) { updateBottomNavUI(isHome = true) }
+        // 하단바 클릭 시 대응 로직 수정
+        binding.composeBottomNav.setContent {
+            MainBottomNavBar { selectedIndex ->
+                when (selectedIndex) {
+                    0 -> moveFragmentWithCheck(HomeFragment()) {}
+                    1 -> moveFragmentWithCheck(BenefitFragment()) {} // 👈 여기 정상 연결함
+                    2 -> moveFragmentWithCheck(ProfileFragment()) {}
+                }
+            }
         }
 
-        // 프로필 탭
-        tabProfile.setOnClickListener {
-            moveFragmentWithCheck(ProfileFragment()) { updateBottomNavUI(isHome = false) }
-        }
-
-
-
+        // 뒤로가기 로직 (기존 유지)
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (isEditingProfile) {
@@ -113,29 +152,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-    }
-
-    private fun initViews() {
-        tabHome = findViewById(R.id.tabHome)
-        tabProfile = findViewById(R.id.tabProfile)
-        imgHome = findViewById(R.id.imgHome)
-        imgProfile = findViewById(R.id.imgProfile)
-        txtHome = findViewById(R.id.txtHome)
-        txtProfile = findViewById(R.id.txtProfile)
-    }
-
-    private fun updateBottomNavUI(isHome: Boolean) {
-        tabHome.isSelected = isHome
-        tabProfile.isSelected = !isHome
-
-        val activeColor = Color.parseColor("#FEFCFF")
-        val inactiveColor = Color.parseColor("#424754")
-
-        imgHome.setColorFilter(if (isHome) activeColor else inactiveColor)
-        txtHome.setTextColor(if (isHome) activeColor else inactiveColor)
-
-        imgProfile.setColorFilter(if (!isHome) activeColor else inactiveColor)
-        txtProfile.setTextColor(if (!isHome) activeColor else inactiveColor)
     }
 
     fun replaceFragment(fragment: Fragment) {
@@ -203,10 +219,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateAppBarByCurrentFragment() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-        if (currentFragment is ProfileEditFragment) {
-            setAppBar(R.layout.profile_app_bar)
-        } else {
-            setAppBar(R.layout.app_bar)
+
+        when (currentFragment) {
+            is ProfileEditFragment -> {
+                binding.appBarContainer.visibility = View.VISIBLE
+                setAppBar(R.layout.profile_app_bar)
+            }
+
+            is HighlightFragment -> {
+                // 🔥 핵심: 하이라이트 프래그먼트일 때는 시루떡 공통 상단바를 완전히 숨김(GONE) 처리!
+                binding.appBarContainer.visibility = View.GONE
+            }
+
+            else -> {
+                // 홈, 혜택 등 다른 화면에서는 다시 시루떡 상단바 보이게 복구
+                binding.appBarContainer.visibility = View.VISIBLE
+                setAppBar(R.layout.app_bar)
+            }
         }
     }
 }

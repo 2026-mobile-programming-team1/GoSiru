@@ -2,18 +2,26 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="60dp"
     android:layout_width="match_parent"
     android:orientation="horizontal"
     android:padding="16dp"
     android:background="@color/background"
-    android:gravity="center_vertical"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent">
+    android:gravity="center_vertical">
 
-    <!--앱이름-->
+    <FrameLayout
+        android:id="@+id/btnReturn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginRight="4dp"
+        android:visibility="gone"> <ImageView
+        android:id="@+id/ivBackArrow"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_arrow_back"
+       />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/textView"
@@ -29,11 +37,10 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <!--알림 아이콘-->
     <FrameLayout
+        android:id="@+id/bellContainer"
         android:layout_width="48dp"
         android:layout_height="48dp">
-
         <ImageView
             android:id="@+id/bell"
             android:layout_width="15dp"
@@ -41,6 +48,14 @@
             android:layout_gravity="center"
             android:src="@drawable/ic_notification" />
 
+        <View
+            android:id="@+id/redDot"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="6dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_red_dot"
+            android:visibility="gone" />
     </FrameLayout>
-
 </LinearLayout>
