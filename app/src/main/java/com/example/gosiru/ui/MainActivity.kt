@@ -78,11 +78,31 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
-
+/*
         supportFragmentManager.addOnBackStackChangedListener {
             updateAppBarByCurrentFragment()
         }
-
+*/
+        supportFragmentManager.registerFragmentLifecycleCallbacks(object : androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks() {
+            override fun onFragmentViewCreated(fm: androidx.fragment.app.FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
+                when (f) {
+                    is HighlightFragment -> {
+                        // 하이라이트 화면일 땐 확실하게 끄기
+                        binding.appBarContainer.visibility = View.GONE
+                    }
+                    is ProfileEditFragment -> {
+                        // 프로필 편집 화면일 땐 켜고, 프로필 전용 바 세팅
+                        binding.appBarContainer.visibility = View.VISIBLE
+                        setAppBar(R.layout.profile_app_bar)
+                    }
+                    else -> {
+                        // 홈, 혜택 등 나머지 화면에선 무조건 다시 켜고 기본 바 세팅
+                        binding.appBarContainer.visibility = View.VISIBLE
+                        setAppBar(R.layout.app_bar)
+                    }
+                }
+            }
+        }, true)
         // 첫 화면 지정
         replaceFragment(HomeFragment())
         setAppBar(R.layout.app_bar)
