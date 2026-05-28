@@ -32,9 +32,14 @@ fun SignUpScreen(
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
 
-    // 파란색 테마 컬러 적용
+    // 다크모드에서도 라이트 테마의 깔끔한 디자인을 유지하기 위해 색상 고정
     val brandColor = Color(0xFF2563EB)
     val backgroundColor = Color(0xFFF9FAFB)
+    val cardBgColor = Color.White
+    val primaryTextColor = Color(0xFF111827)
+    val secondaryTextColor = Color(0xFF6B7280)
+    val inputTextColor = Color.Black
+    val borderColor = Color(0xFFD1D5DB)
 
     LaunchedEffect(uiState.isSuccess) {
         if (uiState.isSuccess) {
@@ -58,14 +63,14 @@ fun SignUpScreen(
                 text = "시루떡",
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF111827),
+                color = primaryTextColor,
                 letterSpacing = (-0.5).sp
             )
 
             Text(
                 text = "Welcome to GO-시루",
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color(0xFF6B7280),
+                color = secondaryTextColor,
                 modifier = Modifier.padding(top = 8.dp)
             )
 
@@ -74,7 +79,7 @@ fun SignUpScreen(
             // 입력창 카드
             Card(
                 modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
+                colors = CardDefaults.cardColors(containerColor = cardBgColor),
                 elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
                 shape = RoundedCornerShape(12.dp)
             ) {
@@ -91,7 +96,7 @@ fun SignUpScreen(
                     OutlinedTextField(
                         value = email,
                         onValueChange = { email = it },
-                        placeholder = { Text("you@example.com", color = Color.LightGray) },
+                        placeholder = { Text("you@example.com", color = Color.Gray) },
                         leadingIcon = {
                             Icon(Icons.Default.Email, contentDescription = null, tint = Color.Gray, modifier = Modifier.size(20.dp))
                         },
@@ -100,7 +105,10 @@ fun SignUpScreen(
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = brandColor,
-                            unfocusedBorderColor = Color(0xFFD1D5DB),
+                            unfocusedBorderColor = borderColor,
+                            focusedTextColor = inputTextColor,
+                            unfocusedTextColor = inputTextColor,
+                            cursorColor = brandColor
                         ),
                         singleLine = true
                     )
@@ -117,7 +125,7 @@ fun SignUpScreen(
                     OutlinedTextField(
                         value = password,
                         onValueChange = { password = it },
-                        placeholder = { Text("••••••••", color = Color.LightGray) },
+                        placeholder = { Text("••••••••", color = Color.Gray) },
                         leadingIcon = {
                             Icon(Icons.Default.Lock, contentDescription = null, tint = Color.Gray, modifier = Modifier.size(20.dp))
                         },
@@ -127,12 +135,15 @@ fun SignUpScreen(
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         trailingIcon = {
                             TextButton(onClick = { passwordVisible = !passwordVisible }) {
-                                Text(if (passwordVisible) "Hide" else "Show", color = Color.Gray, fontSize = 12.sp)
+                                Text(if (passwordVisible) "Hide" else "Show", color = brandColor, fontSize = 12.sp)
                             }
                         },
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = brandColor,
-                            unfocusedBorderColor = Color(0xFFD1D5DB)
+                            unfocusedBorderColor = borderColor,
+                            focusedTextColor = inputTextColor,
+                            unfocusedTextColor = inputTextColor,
+                            cursorColor = brandColor
                         ),
                         singleLine = true
                     )
