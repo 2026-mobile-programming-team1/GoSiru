@@ -78,49 +78,69 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
-
+/*
         supportFragmentManager.addOnBackStackChangedListener {
             updateAppBarByCurrentFragment()
         }
-
+*/
+        supportFragmentManager.registerFragmentLifecycleCallbacks(object : androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks() {
+            override fun onFragmentViewCreated(fm: androidx.fragment.app.FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
+                when (f) {
+                    is HighlightFragment -> {
+                        // 하이라이트 화면일 땐 확실하게 끄기
+                        binding.appBarContainer.visibility = View.GONE
+                    }
+                    is ProfileEditFragment -> {
+                        // 프로필 편집 화면일 땐 켜고, 프로필 전용 바 세팅
+                        binding.appBarContainer.visibility = View.VISIBLE
+                        setAppBar(R.layout.profile_app_bar)
+                    }
+                    else -> {
+                        // 홈, 혜택 등 나머지 화면에선 무조건 다시 켜고 기본 바 세팅
+                        binding.appBarContainer.visibility = View.VISIBLE
+                        setAppBar(R.layout.app_bar)
+                    }
+                }
+            }
+        }, true)
         // 첫 화면 지정
         replaceFragment(HomeFragment())
         setAppBar(R.layout.app_bar)
 
         // 알림 버튼 클릭
-        val redDot = findViewById<View>(R.id.redDot)
-        lifecycleScope.launch {
-            try {
-                // Supabase에서 notifications 테이블 조회
-                val unreadCount = Supabase.client.from("notifications")
-                    .select {
-                        filter {
-                            // eq("user_id", 현재_로그인한_유저_ID) // 필요시 유저 필터링 추가
-                            eq("is_read", false) // 👈 핵심: 안 읽은 알림(false)만 골라내기
-                        }
-                    }.decodeList<Notification>().size // 개수 세기
-
-                // 💡 2. 안 읽은 알림 개수에 따라 빨간 점 제어
-                if (unreadCount > 0) {
-                    redDot.visibility = View.VISIBLE  // 토스처럼 점 켜기!
-                } else {
-                    redDot.visibility = View.GONE     // 다 읽었으면 점 끄기!
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                // 에러 나면 안전하게 점을 숨김
-                redDot.visibility = View.GONE
-            }
-        }
-        // redDot.visibility = View.VISIBLE
-
-        val btnNotification = findViewById<ImageView>(R.id.bell)
-        btnNotification.setOnClickListener {
-
-            redDot.visibility = View.GONE
-            val intent = Intent(this, NotificationActivity::class.java)
-            startActivity(intent)
-        }
+//        /val redDot = findViewById<View>(R.id.redDot)
+//        lifecycleScope.launch {
+//            try {
+//                // Supabase에서 notifications 테이블 조회
+//                val unreadCount = Supabase.client.from("notifications")
+//                    .select {
+//                        filter {
+//                            // eq("user_id", 현재_로그인한_유저_ID) // 필요시 유저 필터링 추가
+//                            eq("is_read", false) // 👈 핵심: 안 읽은 알림(false)만 골라내기
+//                        }
+//                    }.decodeList<Notification>().size // 개수 세기
+//
+//                // 💡 2. 안 읽은 알림 개수에 따라 빨간 점 제어
+//                if (unreadCount > 0) {
+//                    redDot.visibility = View.VISIBLE  // 토스처럼 점 켜기!
+//                } else {
+//                    redDot.visibility = View.GONE     // 다 읽었으면 점 끄기!
+//                }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//                // 에러 나면 안전하게 점을 숨김
+//                redDot.visibility = View.GONE
+//            }
+//        }
+//        // redDot.visibility = View.VISIBLE
+//
+//        val btnNotification = findViewById<ImageView>(R.id.bell)
+//        btnNotification.setOnClickListener {
+//
+//            redDot.visibility = View.GONE
+//            val intent = Intent(this, NotificationActivity::class.java)
+//            startActivity(intent)
+//        }
 
         // 하단바 클릭 시 대응 로직 수정
         binding.composeBottomNav.setContent {
@@ -214,6 +234,46 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.popBackStack()
                 setAppBar(R.layout.app_bar)
             }
+        }
+
+        // 💡 [핵심 추가] 기본 상단 바(app_bar)를 그릴 때마다 종 아이콘 세팅을 다시 해줍니다!
+        if (layoutResId == R.layout.app_bar) {
+            setupNotificationBell(appBarView)
+        }
+    }
+
+    // 💡 새로 추가하는 함수: 종 아이콘 클릭과 빨간 점 로직을 전담합니다.
+    private fun setupNotificationBell(appBarView: View) {
+        // 터치 영역이 넓은 bellContainer를 우선적으로 찾습니다. (없으면 bell 아이콘 자체를 찾음)
+        val bellContainer = appBarView.findViewById<View>(R.id.bellContainer) ?: appBarView.findViewById<View>(R.id.bell)
+        val redDot = appBarView.findViewById<View>(R.id.redDot)
+
+        // 1. 안 읽은 알림 개수 파악해서 빨간 점 제어
+        lifecycleScope.launch {
+            try {
+                val unreadCount = Supabase.client.from("notifications")
+                    .select {
+                        filter {
+                            eq("is_read", false)
+                        }
+                    }.decodeList<Notification>().size
+
+                if (unreadCount > 0) {
+                    redDot?.visibility = View.VISIBLE
+                } else {
+                    redDot?.visibility = View.GONE
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                redDot?.visibility = View.GONE
+            }
+        }
+
+        // 2. 종 아이콘 클릭 시 알림함 이동
+        bellContainer?.setOnClickListener {
+            redDot?.visibility = View.GONE
+            val intent = Intent(this@MainActivity, NotificationActivity::class.java)
+            startActivity(intent)
         }
     }
 
