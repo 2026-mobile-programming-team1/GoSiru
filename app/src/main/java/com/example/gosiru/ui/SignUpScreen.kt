@@ -100,7 +100,7 @@ fun SignUpScreen(
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = brandColor,
-                            unfocusedBorderColor = Color(0xFFD1D5DB)
+                            unfocusedBorderColor = Color(0xFFD1D5DB),
                         ),
                         singleLine = true
                     )
