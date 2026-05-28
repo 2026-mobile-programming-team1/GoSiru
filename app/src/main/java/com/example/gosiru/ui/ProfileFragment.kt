@@ -75,8 +75,17 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 (activity as MainActivity).isProfileDone = true
                 binding.profileStatus.visibility = View.VISIBLE
                 binding.NoProfileSection.visibility = View.GONE
-                // 이름이나 주소 등 텍스트 업데이트 로직 추가 가능
+                //
+                binding.tvUserName.text = profile.name ?: "이름 없음"
+                binding.tvJob.text = profile.jobStatus ?: "-"
+                binding.tvHouseholdType.text = when (profile.householdCount) {
+                    1 -> "1인 가구"
+                    2 -> "2인 가구"
+                    else -> "3인 이상 가구"
+                }
+                binding.tvIncomeLevel.text = "중위소득 ${profile.incomeLevel * 10 + 100}% 이하"
             }
+
         }
     }
 
