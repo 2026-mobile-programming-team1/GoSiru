@@ -77,7 +77,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 binding.NoProfileSection.visibility = View.GONE
                 //
                 binding.tvUserName.text = profile.name ?: "이름 없음"
-                binding.tvJob.text = profile.jobStatus ?: "-"
+                binding.tvJob.text = profile.jobStatus ?: "무직"
                 binding.tvHouseholdType.text = when (profile.householdCount) {
                     1 -> "1인 가구"
                     2 -> "2인 가구"

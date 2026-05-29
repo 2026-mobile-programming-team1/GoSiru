@@ -70,7 +70,7 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
                 val genderChip = binding.cgGender.findViewById<com.google.android.material.chip.Chip>(binding.cgGender.checkedChipId)
                 val gender = genderChip?.text?.toString() ?: "남성"
                 val jobChip = binding.cgJob.findViewById<com.google.android.material.chip.Chip>(binding.cgJob.checkedChipId)
-                val jobStatus = jobChip?.text?.toString()
+                val jobStatus = jobChip?.text?.toString()?: "무직"
                 val householdChip = binding.cgHousehold.findViewById<com.google.android.material.chip.Chip>(binding.cgHousehold.checkedChipId)
                 val householdCount = when (householdChip?.text?.toString()) {
                     "1인 가구" -> 1
@@ -115,6 +115,28 @@ class ProfileEditFragment : Fragment(R.layout.fragment_profile_edit) {
         val years = (1950..2026).map { it.toString() }
         binding.dropdownBirthYear.setAdapter(ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, years))
         binding.dropdownBirthYear.setOnClickListener { binding.dropdownBirthYear.showDropDown() }
+        binding.seekBar.setOnSeekBarChangeListener(object : android.widget.SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: android.widget.SeekBar?, progress: Int, fromUser: Boolean) {
+                // progress 값(0~10)에 따라 텍스트 변경. (기획에 맞게 텍스트는 수정해서 써)
+                val incomeText = when (progress) {
+                    0 -> "소득 없음"
+                    1 -> "100만원 이하"
+                    2 -> "100만원 ~ 200만원"
+                    3 -> "200만원 ~ 300만원"
+                    4 -> "300만원 ~ 400만원"
+                    5 -> "400만원 ~ 500만원"
+                    6 -> "500만원 ~ 600만원"
+                    7 -> "600만원 ~ 700만원"
+                    8 -> "700만원 ~ 800만원"
+                    9 -> "800만원 ~ 1,000만원"
+                    10 -> "1,000만원+"
+                    else -> "소득 구간 선택"
+                }
+                binding.tvIncomeValue.text = incomeText
+            }
+            override fun onStartTrackingTouch(seekBar: android.widget.SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: android.widget.SeekBar?) {}
+        })
     }
 
     override fun onDestroyView() {

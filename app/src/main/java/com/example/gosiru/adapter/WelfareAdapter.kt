@@ -14,6 +14,7 @@ import com.example.gosiru.model.WelfareItem
 
 class WelfareAdapter(
     private var items: List<WelfareItem>,
+    // 💡 이게 바로 밖(BenefitFragment)에서 바텀시트를 띄우라고 넘겨준 명령(람다)입니다.
     private val onItemClick: (WelfareItem) -> Unit
 ) : RecyclerView.Adapter<WelfareAdapter.ViewHolder>() {
 
@@ -23,7 +24,7 @@ class WelfareAdapter(
         val siruBadge: TextView = view.findViewById(R.id.tvSiruBadge)
         val btnApply: ImageView = view.findViewById(R.id.btnApply)
         val tvAmount: TextView = view.findViewById(R.id.tvAmount)
-        val tvCustomBadge: TextView = view.findViewById(R.id.tvCustomBadge) // 추가!
+        val tvCustomBadge: TextView = view.findViewById(R.id.tvCustomBadge)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,10 +39,9 @@ class WelfareAdapter(
         holder.content.text = item.content ?: "내용 없음"
         holder.tvCustomBadge.visibility = View.VISIBLE
 
-        // DB에서 값이 없을 수 있으므로 == true 로 명확히 체크
         holder.siruBadge.visibility = if (item.isSiru == true) View.VISIBLE else View.GONE
 
-        // 🔥 지원 금액 표시 (값이 있으면 보여주고, 없으면 숨김)
+        // 지원 금액 표시
         if (!item.amount.isNullOrBlank()) {
             holder.tvAmount.visibility = View.VISIBLE
             holder.tvAmount.text = "${item.amount}"
@@ -49,18 +49,13 @@ class WelfareAdapter(
             holder.tvAmount.visibility = View.GONE
         }
 
-        if (!item.applyLink.isNullOrBlank()) {
-            holder.btnApply.visibility = View.VISIBLE
-            holder.btnApply.setOnClickListener {
-                openApplyLink(holder.itemView.context, item.applyLink)
-            }
-        } else {
-            holder.btnApply.visibility = View.GONE
+        // 💡 수정된 부분: 버튼을 누르든, 아이템 전체를 누르든 모두 onItemClick(바텀시트 호출)을 실행합니다.
+        holder.btnApply.setOnClickListener {
+            onItemClick(item)
         }
+
         holder.itemView.setOnClickListener {
-            item.applyLink?.let { link ->
-                openApplyLink(holder.itemView.context, link)
-            }
+            onItemClick(item)
         }
     }
 
@@ -78,11 +73,4 @@ class WelfareAdapter(
     }
 }
 
-fun openApplyLink(context: Context, applyLink: String) {
-    try {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(applyLink))
-        context.startActivity(intent)
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-}
+// 💡 직접 링크를 여는 기존 openApplyLink 함수는 이제 안 쓰므로 삭제했습니다.

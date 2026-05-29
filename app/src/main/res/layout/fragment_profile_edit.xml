@@ -391,6 +391,25 @@
                     android:fontFamily="@font/pretendard"
                     android:textColor="@color/chip_text"
                     style="@style/Widget.MaterialComponents.Chip.Choice"/>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/houseMaternity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipBackgroundColor="@color/chip_selector"
+                    android:text="출산가정"
+                    android:fontFamily="@font/pretendard"
+                    android:textColor="@color/chip_text"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/houseLowIncome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:chipBackgroundColor="@color/chip_selector"
+                    android:text="저소득가구"
+                    android:fontFamily="@font/pretendard"
+                    android:textColor="@color/chip_text"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"/>
             </com.google.android.material.chip.ChipGroup>
         </LinearLayout>
 

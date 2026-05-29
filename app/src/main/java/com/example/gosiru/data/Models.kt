@@ -30,7 +30,10 @@ data class WelfareItem(
     val amount: String? = null, // 기본값 추가
     @SerialName("is_siru") val isSiru: Boolean? = null, // 기본값 추가
     val gender: String? = null, // 기본값 추가
+    @SerialName("end_date") val endDate: String? = null,
+    @SerialName("start_date") val startDate: String? = null,
     @SerialName("apply_link") val applyLink: String? = null, // 기본값 추가
     @SerialName("is_disabled_only") val isDisabledOnly: Boolean? = null, // 기본값 추가
     @SerialName("is_foreigner_only") val isForeignerOnly: Boolean? = null // 기본값 추가
+
 )
