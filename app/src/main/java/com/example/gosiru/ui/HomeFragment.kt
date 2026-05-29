@@ -124,12 +124,30 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         // 2026 신규 정책 카드 클릭 이벤트
         binding.btnNewPolicy.setOnClickListener {
-            /* 기존 로직 유지 */
+            val highlightFragment = HighlightFragment().apply {
+                arguments = Bundle().apply {
+                    putString("TAB_TYPE", "NEW")
+                }
+            }
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, highlightFragment)
+                .addToBackStack(null) // 뒤로 가기를 위해 백스택에 추가
+                .commit()
         }
 
-        // 2026 인상된 지원금 카드 클릭 이벤트
+// 2026 인상된 지원금 카드 클릭 이벤트
         binding.btnIncreasedPolicy.setOnClickListener {
-            /* 기존 로직 유지 */
+            val highlightFragment = HighlightFragment().apply {
+                arguments = Bundle().apply {
+                    putString("TAB_TYPE", "INCREASED")
+                }
+            }
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, highlightFragment)
+                .addToBackStack(null)
+                .commit()
         }
     }
 
