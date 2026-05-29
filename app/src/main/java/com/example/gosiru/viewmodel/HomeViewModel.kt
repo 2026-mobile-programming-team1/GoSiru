@@ -28,14 +28,20 @@ data class UrgentWelfareResponse(
     val id: Long,
     val title: String,
     val content: String?,
-    @SerialName("end_date") val endDate: String
+    // ⭐ 마감일이 없는(null) 상시 혜택도 에러 없이 받기 위해 `String? = null` 처리
+    @SerialName("end_date") val endDate: String? = null,
+    // ⭐ 바텀시트 UI에 넘겨줄 추가 정보들
+    @SerialName("start_date") val startDate: String? = null,
+    @SerialName("apply_link") val applyLink: String? = null
 )
 
 // 💡 3. UI(Compose)에서 사용할 가공된 상태 클래스
 data class UrgentBannerUiState(
     val title: String,
-    val description: String,
-    val dDay: Int
+    val subtitle: String, // 기존 description에서 디자인 시안에 맞춰 이름 변경
+    val dDay: Int,
+    val period: String,   // 예: "2026.03.01 ~ 03.31"
+    val applyLink: String // 이동할 웹사이트 링크
 )
 
 class HomeViewModel(private val supabase: SupabaseClient) : ViewModel() {
@@ -62,8 +68,9 @@ class HomeViewModel(private val supabase: SupabaseClient) : ViewModel() {
                 val response = supabase.from("welfare_list")
                     .select {
                         filter {
-//                            neq("end_date", null) // 기한이 없는 것은 패스
-                            gte("end_date", LocalDate.now().toString()) // 마감일이 오늘 이후인 것
+                            // ⭐ gte("end_date", ...) 로직 덕분에 DB에서 1차적으로 null인 애들은 탈락합니다.
+                            // 마감일이 '오늘 이후'로 존재하는 것만 필터링!
+                            gte("end_date", LocalDate.now().toString())
                             lte("min_age", userAge)
                             gte("max_age", userAge)
                             or {
@@ -78,16 +85,30 @@ class HomeViewModel(private val supabase: SupabaseClient) : ViewModel() {
 
                 if (response.isNotEmpty()) {
                     val welfare = response[0]
-                    val dDay = calculateDDay(welfare.endDate)
 
-                    // 4. [핵심 조건] 딱 마감 D-5 이내일 때만 배너 데이터 생성
-                    if (dDay in 0..5) {
-                        urgentBannerState.value = UrgentBannerUiState(
-                            title = welfare.title,
-                            description = welfare.content ?: "",
-                            dDay = dDay
-                        )
+                    // ⭐ 만약 DB에서 꼬여서 null이 들어오더라도 앱이 터지지 않도록 방어 코드 추가
+                    if (welfare.endDate != null) {
+                        val dDay = calculateDDay(welfare.endDate)
+
+                        // 💡 날짜 가공: 시작일이 없으면 "상시", 있으면 "2026.03.01" 형태로 변경
+                        val startStr = welfare.startDate?.replace("-", ".") ?: "상시"
+                        val endStr = welfare.endDate.replace("-", ".")
+                        val displayPeriod = "$startStr ~ $endStr"
+
+                        // 4. [핵심 조건] 딱 마감 D-5 이내일 때만 배너 데이터 생성
+                        if (dDay in 0..5) {
+                            urgentBannerState.value = UrgentBannerUiState(
+                                title = welfare.title,
+                                subtitle = welfare.content ?: "지원 내용을 확인해보세요.",
+                                dDay = dDay,
+                                period = displayPeriod,
+                                applyLink = welfare.applyLink ?: ""
+                            )
+                        } else {
+                            urgentBannerState.value = null
+                        }
                     } else {
+                        // endDate가 null이면 마감 임박이 아니므로 배너 숨김
                         urgentBannerState.value = null
                     }
                 } else {

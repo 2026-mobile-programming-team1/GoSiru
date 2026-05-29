@@ -47,7 +47,18 @@ class BenefitFragment : Fragment(R.layout.fragment_benefit) {
 
     private fun setupRecyclerView() {
         welfareAdapter = WelfareAdapter(emptyList()) { welfareItem ->
-            // 클릭 동작은 WelfareAdapter 내부에서 apply_link로 처리 중
+            // 💡 여기서 바로 링크로 넘어가지 않고 바텀시트를 호출합니다!
+            // (주의: welfareItem 안의 변수명은 준혁님의 WelfareAdapter 모델 클래스에 맞게 수정해주세요)
+            val bottomSheet = WelfareBottomSheetFragment.newInstance(
+                title = welfareItem.title,
+                subtitle = welfareItem.content ?: "지원 내용을 확인해보세요.",
+                endDate = welfareItem.endDate ?: "",
+                startDate = welfareItem.startDate ?: "", // 데이터 모델에 startDate 추가 필요!
+                applyLink = welfareItem.applyLink ?: ""
+            )
+
+            // 바텀시트 띄우기
+            bottomSheet.show(parentFragmentManager, "WelfareBottomSheet")
         }
 
         binding.rvWelfareList.apply {
